@@ -6,3 +6,5 @@ apt-get update
 apt-get install -y nodejs
 apt-get install -y mongodb-org
 service mongod start
+cd /vagrant
+nodejs server.js

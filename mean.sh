@@ -8,3 +8,4 @@ apt-get install -y npm
 apt-get install -y mongodb-org
 sudo sed -i 's/bind_ip/#bind_ip/g' /etc/mongod.conf
 sudo service mongod restart
+cd /vagrant && nodejs server.js
