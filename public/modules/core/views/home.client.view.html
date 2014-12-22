@@ -1,16 +1,40 @@
 <section data-ng-controller="HomeController">
-	<div class="map">
-	<leaflet height="100%" width="100%" center="center" layers="layers"></leaflet>
-	</div>
-	<div class="comments">
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus finibus ut leo eget rutrum. Mauris dignissim orci egestas pellentesque lacinia. Donec sodales maximus urna ac iaculis. Donec lobortis nisi a est mollis, sit amet rutrum lorem consectetur. Donec venenatis nulla vel enim lobortis semper. Nunc non consequat ligula. Nam eleifend, urna molestie lobortis tempor, nisl enim feugiat dui, in venenatis diam magna at lorem. Morbi consequat ex in orci dignissim sodales.
+    <div class="map">
+        <leaflet height="100%" width="100%" center="center" layers="layers" controls="controls" defaults="defaults" markers="markers"></leaflet>
+    </div>
+    <div class="comments">
+        <button class="btn btn-success" ng-click="activateEvents()">Neu anlegen</button>
+        <pre ng-model="coordinates">{{coordinates.lat}}</pre>
+        <pre ng-model="coordinates">{{coordinates.lng}}</pre>
+        <pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
 
-			Phasellus fermentum feugiat ultrices. Proin placerat lacinia ligula sed faucibus. Integer id egestas dolor. Cras convallis mauris in justo consectetur, in viverra tellus posuere. Cras turpis massa, tempor vel dapibus nec, accumsan at sapien. Maecenas quis laoreet nunc, ac condimentum nulla. Cras id tortor et justo tincidunt sodales. Fusce et molestie tortor. Aenean dapibus diam et turpis lobortis euismod non non libero. Cras ut elit erat. Quisque eget augue neque. Fusce rutrum lacinia efficitur. Cras nec molestie leo. Curabitur ultrices ipsum odio. Etiam fermentum aliquam tellus sit amet feugiat.
+            <h4>Inline</h4>
+            <div style="display:inline-block; min-height:290px;">
+                <datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm"></datepicker>
+            </div>
 
-			Duis nisl dui, molestie nec malesuada a, mollis sit amet libero. Donec vitae nunc lorem. Phasellus non neque mollis, suscipit est in, consectetur dui. Etiam vel congue massa. Etiam pellentesque ultrices velit, sed mattis purus euismod et. Quisque at nisl sit amet justo sollicitudin suscipit. Nunc et velit elit. Ut eget feugiat nisl, id mollis quam.
+            <h4>Popup</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="input-group">
+                      <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                      </span>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Format:</label> <select class="form-control" ng-model="format" ng-options="f for f in formats"><option></option></select>
+                </div>
+            </div>
 
-			Maecenas volutpat erat massa, sed aliquet ligula lacinia eget. Praesent libero turpis, cursus commodo elit a, scelerisque vulputate velit. Pellentesque scelerisque odio nulla, vel hendrerit nibh volutpat sit amet. Aenean consectetur turpis vel luctus sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur in vulputate felis, sit amet pretium erat. In egestas sapien et dui pharetra porttitor. Mauris vulputate finibus arcu, eget posuere libero. Suspendisse potenti. In hendrerit leo at purus accumsan ultrices. Etiam efficitur felis a sodales tempus. Vestibulum eu ipsum ac diam consequat blandit vel at neque.
-
-			Vestibulum sodales tincidunt laoreet. Curabitur interdum neque quis ex pretium, at dignissim urna rhoncus. Quisque tincidunt, ipsum id facilisis sagittis, nibh orci lobortis risus, ut vulputate orci mi quis orci. Donec pellentesque tincidunt lorem non maximus. Donec a porta arcu. Vivamus interdum convallis ligula et rhoncus. Morbi finibus tortor est, vitae aliquam tellus ullamcorper ut. Etiam quis quam malesuada, tristique nulla vitae, fringilla nisi. Vivamus porta dolor a malesuada eleifend. Mauris quis velit quis mauris mollis rutrum ut ac lorem.
-	</div>
+            <hr />
+            <button type="button" class="btn btn-sm btn-info" ng-click="today()">Today</button>
+            <button type="button" class="btn btn-sm btn-default" ng-click="dt = '2009-08-24'">2009-08-24</button>
+            <button type="button" class="btn btn-sm btn-danger" ng-click="clear()">Clear</button>
+            <button type="button" class="btn btn-sm btn-default" ng-click="toggleMin()" tooltip="After today restriction">Min date</button>    
+    </div>
+    
 </section>
