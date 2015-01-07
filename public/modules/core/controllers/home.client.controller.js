@@ -6,6 +6,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 		// This provides Authentication context.
 		$scope.authentication = Authentication;
 
+    // Leaflet angular
 		angular.extend($scope, {
             center: {
                 autoDiscover: true
@@ -38,15 +39,24 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                 controls: {
                     layers: {
                         visible: true,
-                        position: 'bottomright',
+                        position: 'topleft',
                         collapsed: true
                     }
                 }
             },
             controls: {
-                draw: {}
-            }
+                    draw: {
+                      draw: {
+                         polyline: false,
+                         polygon: false,
+                         rectangle: false,
+                         circle: false,
+                         marker: true,
+                       }
+                    }   
+          }
         });
+        
 
         $scope.coordinates = {};
 
@@ -69,6 +79,8 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
             $scope.$on('leafletDirectiveMap.click', $scope.clickEvent);
         }
         
+        // Calender tests
+
         $scope.today = function() {
             $scope.dt = new Date();
           };
