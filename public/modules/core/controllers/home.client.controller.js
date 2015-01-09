@@ -23,8 +23,10 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                         url: 'http://api.tiles.mapbox.com/v4/{mapid}/{z}/{x}/{y}.png?access_token={apikey}',
                         type: 'xyz',
                         layerOptions: {
-                            apikey: "pk.eyJ1IjoidG9tYmF0b3NzYWxzIiwiYSI6Imo3MWxyTHMifQ.TjXg_IV7ZYMHX6tqjMikPg",
-                            mapid: "tombatossals.jbn2nnon"
+                            apikey: "pk.eyJ1IjoiZHJhZ29uc2t5IiwiYSI6Inl1TGc5eVUifQ.sMGhI3VW_pQRIqGViDXbCw", 
+                                  //"pk.eyJ1IjoidG9tYmF0b3NzYWxzIiwiYSI6Imo3MWxyTHMifQ.TjXg_IV7ZYMHX6tqjMikPg",
+                            mapid:  "dragonsky.i5ho0lna"
+                                  //"tombatossals.jbn2nnon"
                         }
                     },
                     arc: {
@@ -52,7 +54,8 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                          rectangle: false,
                          circle: false,
                          marker: true,
-                       }
+                       },
+                      //edit: false
                     }   
           }
         });
