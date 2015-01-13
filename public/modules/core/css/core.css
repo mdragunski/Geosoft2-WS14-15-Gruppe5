@@ -13,3 +13,29 @@
 .ng-valid.ng-dirty {
 	border-color: #78FA89;
 }
+
+.map {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 40%;
+	padding-top: 50px;
+}
+
+.comments {
+	text-align: center;
+	padding-top: 50px;
+	overflow-x: hidden;
+	position: absolute;
+	bottom: 0;
+	top: 0;
+	right: 0;
+	width: 40%;
+	min-width: 400px;
+	box-sizing: border-box;
+	background: #fff;
+	transition: all 200ms;
+	-webkit-transition: all 200ms;
+	box-shadow: rgba(0,0,0,0.1) -2px 0px 0px;
+}
