@@ -18,7 +18,8 @@ var CommentsSchema = new Schema({
 	timereference: Date,
 	georeference: String,
 	tags: [String],
-	additionalressources: [String]
+	additionalressources: [String],
+	username: { type: String, default: 'anonymous' }
 });
 
 /**
