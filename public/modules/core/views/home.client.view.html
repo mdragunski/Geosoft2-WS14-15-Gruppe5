@@ -3,7 +3,11 @@
         <leaflet height="100%" width="100%" center="center" layers="layers" controls="controls" defaults="defaults" markers="markers"></leaflet>
     </div>
     <div class="comments">
-        <button class="btn btn-success" ng-click="activateEvents()">Neu anlegen</button>
+        <div class="place">
+            <h3>Neues Thema erstellen</h3>
+            <!-- <button class="btn btn-success" ng-click="activateEvents()">Neu anlegen</button> -->
+            <input ng_focus="startNewTopic()" placeholder="Titel" type="text" class="">
+        </div>
         <pre ng-model="coordinates">{{coordinates.lat}}</pre>
         <pre ng-model="coordinates">{{coordinates.lng}}</pre>
         <pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
