@@ -64,3 +64,27 @@ input {
 	box-shadow: rgba(0,0,0,0.1) -2px 0px 0px;
 }
 
+#app_info_button {
+	display: block;
+	position: absolute;
+	bottom: 25px;
+	left: 25px;
+	cursor: pointer;
+	font-size: 10px;
+	line-height: 20px;
+	width: 20px;
+	height: 20px;
+	color: #fdfdfd;
+	background-color: #313131;
+	text-align: center;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-ms-border-radius: 10px;
+	-o-border-radius: 10px;
+	border-radius: 10px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+}
