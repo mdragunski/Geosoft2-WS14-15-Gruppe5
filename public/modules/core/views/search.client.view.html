@@ -2,7 +2,24 @@
 	<div class="map">
 		<leaflet height="100%" width="100%" center="center" layers="layers" controls="controls" defaults="defaults" markers="markers"></leaflet>
 	</div>
-	<div class="comments">
+	<div class="comments" ng-controller="SearchController">
+		<input id="search_input" ng-model="query">
+		<div id="search_advanced">
+
+		</div>
+		<div id="search_result">
+
+			<div class="comment" ng-repeat="comment in comments | filter:query">
+				<a href={{comment.url}}>{{comment.url}}</a></br>
+
+				<p>
+					{{comment.text}}
+				</p>
+				{{comment.username}} - {{comment.creationdate|date:medium}}
+
+			</div>
+
+		</div>
 
 	</div>
 
