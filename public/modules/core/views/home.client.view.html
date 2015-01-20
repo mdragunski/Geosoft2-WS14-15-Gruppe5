@@ -15,10 +15,14 @@
             <h3>Neues Thema erstellen</h3>
             <!-- <button class="btn btn-success" ng-click="activateEvents()">Neu anlegen</button> -->
             <div class="contribution">
-                <input ng_focus="startNewTopic()" placeholder="Titel" type="text">
-                <div id="new-topic-container">
-                    <button class="btn btn-success" ng-click="activateEvents()">Neu anlegen</button>
-                </div>
+                <form class="contribution-form ng-valid ng-valid-required ng-dirty" name="contribution_form" novalidate="">
+                    <input ng_focus="startNewTopic()" placeholder="Titel" type="text">
+                    
+
+                    <div id="new-topic-container">
+                        <button class="btn btn-success" ng-click="activateEvents()">Neu anlegen</button>
+                    </div>
+                </form>
             </div>
         </div>
         <pre ng-model="coordinates">{{coordinates.lat}}</pre>

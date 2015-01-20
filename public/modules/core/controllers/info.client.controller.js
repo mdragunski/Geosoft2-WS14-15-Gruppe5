@@ -16,8 +16,9 @@ app.controller('InfoController', ['$scope', 'ngDialog',
 			}
 		]);
 
-app.controller('FirstDialogCtrl', function ($scope, ngDialog) {
-				$scope.next = function () {
+app.controller('FirstDialogCtrl', 
+	function ($scope, ngDialog) {
+		$scope.next = function () {
 					ngDialog.close('ngdialog1');
 					ngDialog.open({
 						template: 'modules/core/views/secondDialog.client.view.html',
