@@ -5,7 +5,7 @@ angular.module('core').controller('SearchController', ['$scope',
 		$scope.comments = [
 	{
 		'url':'google.de',
-		'creationdate':1421614549816,
+		'creationdate':1421649549816,
 		'text':'blub',
 		'rating':3,
 		'timereference':1421614649816,
@@ -22,7 +22,7 @@ angular.module('core').controller('SearchController', ['$scope',
 	},
 {
 	'url':'google.de',
-	'creationdate':1421614649816,
+	'creationdate':1424614649816,
 	'text':'blub2 elefant',
 	'rating':4,
 	'timereference':1421614649816,
@@ -39,7 +39,7 @@ angular.module('core').controller('SearchController', ['$scope',
 },
 {
 	'url':'google.de',
-	'creationdate':1421614649816,
+	'creationdate':1391614644756,
 	'text':'blub hallo',
 	'rating':3,
 	'timereference':1421614649816,
@@ -55,6 +55,17 @@ angular.module('core').controller('SearchController', ['$scope',
 	'username':'anonymous'
 }
 ];
+
+$scope.open = function($event) {
+	$event.preventDefault();
+	$event.stopPropagation();
+
+	$scope.opened = true;
+};
+
+
+
+
 
 
 

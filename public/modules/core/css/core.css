@@ -42,9 +42,14 @@
 
 #search_input{
 	width:100%;
+	padding:4px;
+	margin:4px;
 
 }
 #search_advanced{
+	width:100%;
+	
+	background-color:lightblue;
 
 }
 #search_results{
