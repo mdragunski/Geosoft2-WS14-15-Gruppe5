@@ -5,6 +5,8 @@
  */
 var mongoose = require('mongoose'),
 	Schema = mongoose.Schema,
+	GeoJSON = require('mongoose-geojson-schema'),
+	textSearch = require('mongoose-text-search'),
 	ObjectId = Schema.ObjectId;
 
 /**
@@ -16,11 +18,12 @@ var CommentsSchema = new Schema({
 	text: { type: String, required: true },
 	rating: {type: Number, min: 0, max: 5, default: 0},
 	timereference: Date,
-	georeference: String,
+	georeference: GeoJSON.Feature,
 	tags: [String],
 	additionalressources: [String],
 	username: { type: String, default: 'anonymous' }
 });
+
 
 /**
  * Virtual Field for the commentId
@@ -37,5 +40,21 @@ CommentsSchema.getComment = {
 		this.findOne({_id : id}).exec(cb);
 		}
 };
+
+/**
+* Add text search capabilities to the comments-model
+ */
+CommentsSchema.plugin(textSearch);
+
+
+/**
+* Add API-Query capabilities to the comments model
+ */
+CommentsSchema.plugin(apiQuery);
+
+/**
+* Add a text index to the tags array
+ */
+CommentsSchema.index({ url: 'text', text: 'text', tags: 'text' });
 
 mongoose.model('Comments', CommentsSchema);
