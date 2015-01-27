@@ -48,11 +48,6 @@ CommentsSchema.plugin(textSearch);
 
 
 /**
-* Add API-Query capabilities to the comments model
- */
-CommentsSchema.plugin(apiQuery);
-
-/**
 * Add a text index to the tags array
  */
 CommentsSchema.index({ url: 'text', text: 'text', tags: 'text' });
