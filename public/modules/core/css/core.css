@@ -39,3 +39,8 @@
 	-webkit-transition: all 200ms;
 	box-shadow: rgba(0,0,0,0.1) -2px 0px 0px;
 }
+.tag{
+	background-color:lightgrey;
+	margin-left:4px;
+	margin-right:4px;
+}

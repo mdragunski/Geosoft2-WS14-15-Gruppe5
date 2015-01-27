@@ -2,7 +2,26 @@
     <div class="map">
         <leaflet height="100%" width="100%" center="center" layers="layers" controls="controls" defaults="defaults" markers="markers"></leaflet>
     </div>
-    <div class="comments">
+    <div class="comments" ng-controller="NewCommentController">
+      URL: <input type="url" ng-model="comment.url" /><br />
+      Comment: <input type="text" ng-model="comment.text" /><br />
+      Rating: <rating ng-model="comment.rating"></rating><br />
+      Coordinates:<br />
+      Lattitude: <input type="number" ng-model="lat" /><br />
+      Longitude: <input type="number" ng-model="lng" /><br />
+      <button class="btn btn-default" ng-click="">Get Coordinates from Map</button><br />
+      Timeframe:<br />
+      Begin:<br />
+      End:<br />
+      Tags:<span class="tag" ng-repeat="tag in comment.tags">{{tag}}</span><br />
+      <input type="text" ng-model="tag_input" /> <button class="btn btn-default" ng-click="addTag(tag_input)">Add Tag</button><br />
+      Additional Ressources:<br />
+      <input type="url" ng-model="additionalressource_input" /><button class="btn btn-default" ng-click="addAdditionalRessource(additionalressource_input)">Add Additional Ressource</button><br />
+
+      Comment: {{comment|json}}<br />
+
+
+      <button class="btn btn-success" ng-click="submitComment()">Submit Comment</button><br />
         <button class="btn btn-success" ng-click="activateEvents()">Neu anlegen</button>
         <pre ng-model="coordinates">{{coordinates.lat}}</pre>
         <pre ng-model="coordinates">{{coordinates.lng}}</pre>
