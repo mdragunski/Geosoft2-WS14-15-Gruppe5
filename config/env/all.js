@@ -16,7 +16,10 @@ module.exports = {
 				'public/lib/bootstrap/dist/css/bootstrap.css',
 				'public/lib/bootstrap/dist/css/bootstrap-theme.css',
 				'public/lib/leaflet/dist/leaflet.css',
-				'public/lib/leaflet.draw/dist/leaflet.draw.css'
+				'public/lib/leaflet.draw/dist/leaflet.draw.css',
+				'public/lib/ngDialog/css/ngDialog.css',
+				'public/lib/ngDialog/css/ngDialog-theme-default.css',
+				'public/lib/fontawesome/css/font-awesome.css'
 			],
 			js: [
 				'public/lib/angular/angular.js',
@@ -30,7 +33,8 @@ module.exports = {
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
 				'public/lib/leaflet/dist/leaflet.js',
 				'public/lib/angular-leaflet/dist/angular-leaflet-directive.min.js',
-				'public/lib/leaflet.draw/dist/leaflet.draw.js'
+				'public/lib/leaflet.draw/dist/leaflet.draw.js',
+				'public/lib/ngDialog/js/ngDialog.js'
 			]
 		},
 		css: [

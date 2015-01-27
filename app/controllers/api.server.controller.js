@@ -25,19 +25,24 @@ exports.read = function(req, res) {
 	});
 };
 
-/**
- * Update a Comment
- */
-exports.update = function(req, res) {
-
-};
 
 /**
- * Delete an Comment
+ * Search for Comments by API
  */
-exports.delete = function(req, res) {
-
+exports.search = function(req, res) {
+	var searchReq = req.query.q;
+	var count = req.query.count
+	Comment.textSearch(searchReq, function(err, output){
+		if (err) return handleError(err);
+		else {
+			var results = output.results;
+			// var returnval = results.select('obj');
+                	res.jsonp(results);
+		}
+  	});
 };
+		
+
 
 /**
  * List of Comments
@@ -48,4 +53,3 @@ exports.list = function(req, res) {
                         res.jsonp(comments);
                 });
 };
-

@@ -9,8 +9,13 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
     // Leaflet angular
 		angular.extend($scope, {
             center: {
+<<<<<<< HEAD
                 autoDiscover: true
             },
+=======
+                autoDiscover: true,
+            },
+>>>>>>> 463a5278766e3bb87b287d55a6e5995c52378d85
             layers: {
                 baselayers: {
                     osm: {
@@ -25,8 +30,8 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                         layerOptions: {
                             apikey: "pk.eyJ1IjoiZHJhZ29uc2t5IiwiYSI6Inl1TGc5eVUifQ.sMGhI3VW_pQRIqGViDXbCw",
                                   //"pk.eyJ1IjoidG9tYmF0b3NzYWxzIiwiYSI6Imo3MWxyTHMifQ.TjXg_IV7ZYMHX6tqjMikPg",
-                            mapid:  "dragonsky.i5ho0lna"
-                                  //"tombatossals.jbn2nnon"
+                            mapid:  "dragonsky.tombatossals"
+                                  //"i5ho0lna.jbn2nnon"
                         }
                     },
                     arc: {
@@ -118,6 +123,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 
           $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
           $scope.format = $scope.formats[0];
+
 
     }
 ]);
