@@ -64,6 +64,7 @@ input {
 	box-shadow: rgba(0,0,0,0.1) -2px 0px 0px;
 }
 
+<<<<<<< HEAD
 .tag{
 	background-color:lightgrey;
 	margin-left:4px;
@@ -94,4 +95,24 @@ input {
 	border: 0;
 	font-size: 100%;
 	vertical-align: baseline;
+=======
+#search_input{
+	width:100%;
+	padding:4px;
+	margin:4px;
+
+}
+#search_advanced{
+	width:100%;
+	
+	background-color:lightblue;
+
+}
+#search_results{
+
+}
+.comment{
+	border-style:solid;
+	border-width:1px;
+>>>>>>> de8cfc40317244a83af816f30adabc05de0c39b1
 }
