@@ -1,40 +1,71 @@
 <section data-ng-controller="HomeController">
     <div class="map">
         <leaflet height="100%" width="100%" center="center" layers="layers" controls="controls" defaults="defaults" markers="markers"></leaflet>
+
     </div>
-    <div class="comments">
+    <div data-ng-controller="InfoController">
+        <i class="fa fa-info" id="app_info_button" ng-click="open()" ng_dialog_class="ngdialog-theme-default"></i>
+    </div>
+
+    <div class="comments" ng-controller="NewCommentController">
+      URL: <input type="url" ng-model="comment.url" /><br />
+      Comment: <input type="text" ng-model="comment.text" /><br />
+      Rating: <rating ng-model="comment.rating"></rating><br />
+      Coordinates:<br />
+      Lattitude: <input type="number" ng-change="changeCoordinates()" ng-model="lat" /><br />
+      Longitude: <input type="number" ng-change="changeCoordinates()" ng-model="lng" /><br />
+      <button class="btn btn-default" ng-click="">Get Coordinates from Map</button><br />
+      Timeframe:<br />
+      Begin:<br />
+      End:<br />
+      Tags:<span class="tag" ng-repeat="tag in comment.tags">{{tag}}<i class="fa fa-times" ng-click="removeTag(tag)"></i></span><br />
+      <input type="text" ng-model="tag_input" /> <button class="btn btn-default" ng-click="addTag(tag_input)">Add Tag</button><br />
+      Additional Ressources:<br />
+      <input type="url" ng-model="additionalressource_input" /><button class="btn btn-default" ng-click="addAdditionalRessource(additionalressource_input)">Add Additional Ressource</button><br />
+
+      Comment: {{comment|json}}
+      {{lat}}
+      <br />
+
+
+      <button class="btn btn-success" ng-click="submitComment()">Submit Comment</button><br />
         <button class="btn btn-success" ng-click="activateEvents()">Neu anlegen</button>
+
         <pre ng-model="coordinates">{{coordinates.lat}}</pre>
         <pre ng-model="coordinates">{{coordinates.lng}}</pre>
         <pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
 
-            <h4>Inline</h4>
-            <div style="display:inline-block; min-height:290px;">
-                <datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm"></datepicker>
-            </div>
+        <h4>Inline</h4>
+        <div style="display:inline-block; min-height:290px;">
+            <datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm"></datepicker>
+        </div>
 
-            <h4>Popup</h4>
-            <div class="row">
-                <div class="col-md-6">
-                    <p class="input-group">
-                      <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
-                      <span class="input-group-btn">
+        <h4>Popup</h4>
+        <div class="row">
+            <div class="col-md-6">
+                <p class="input-group">
+                    <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                    <span class="input-group-btn">
                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                       </span>
-                    </p>
-                </div>
+                </p>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <label>Format:</label> <select class="form-control" ng-model="format" ng-options="f for f in formats"><option></option></select>
-                </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label>Format:</label>
+                <select class="form-control" ng-model="format" ng-options="f for f in formats">
+                    <option></option>
+                </select>
             </div>
+        </div>
 
-            <hr />
-            <button type="button" class="btn btn-sm btn-info" ng-click="today()">Today</button>
-            <button type="button" class="btn btn-sm btn-default" ng-click="dt = '2009-08-24'">2009-08-24</button>
-            <button type="button" class="btn btn-sm btn-danger" ng-click="clear()">Clear</button>
-            <button type="button" class="btn btn-sm btn-default" ng-click="toggleMin()" tooltip="After today restriction">Min date</button>
+
+        <hr />
+        <button type="button" class="btn btn-sm btn-info" ng-click="today()">Today</button>
+        <button type="button" class="btn btn-sm btn-default" ng-click="dt = '2009-08-24'">2009-08-24</button>
+        <button type="button" class="btn btn-sm btn-danger" ng-click="clear()">Clear</button>
+        <button type="button" class="btn btn-sm btn-default" ng-click="toggleMin()" tooltip="After today restriction">Min date</button>
     </div>
 
 </section>
