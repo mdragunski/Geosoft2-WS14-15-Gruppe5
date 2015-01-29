@@ -1,8 +1,8 @@
 'use strict';
 
 
-angular.module('core').controller('HomeController', ['$scope', 'Authentication',
-	function($scope, Authentication) {
+angular.module('core').controller('HomeController', ['$scope', 'Authentication', '$http',
+	function($scope, Authentication, $http) {
 		// This provides Authentication context.
 		$scope.authentication = Authentication;
 
@@ -59,7 +59,6 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                     }   
           }
         });
-        
 
         $scope.coordinates = {};
 
@@ -117,27 +116,6 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 
           $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
           $scope.format = $scope.formats[0];
-       /*
-          $scope.open = function () {
-            ngDialog.open({
-              template: 'firstDialog',
-              className: 'ngdialog-theme-default ngdialog-theme-custom'
-            });
-          };
-
-          $scope.next = function () {
-            console.log('asd');
-            ngDialog.close('firstDialog');
-            ngDialog.open({
-              template: 'secondDialog',
-              className: 'ngdialog-theme-flat ngdialog-theme-custom'
-            });
-          };
-*/
-
-
-
-
 
       }
 
