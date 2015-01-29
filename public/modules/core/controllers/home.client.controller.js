@@ -9,8 +9,10 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
     // Leaflet angular
 		angular.extend($scope, {
             center: {
-                autoDiscover: true,
-            },   
+
+                autoDiscover: true
+            },
+
             layers: {
                 baselayers: {
                     osm: {
@@ -23,7 +25,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                         url: 'http://api.tiles.mapbox.com/v4/{mapid}/{z}/{x}/{y}.png?access_token={apikey}',
                         type: 'xyz',
                         layerOptions: {
-                            apikey: "pk.eyJ1IjoiZHJhZ29uc2t5IiwiYSI6Inl1TGc5eVUifQ.sMGhI3VW_pQRIqGViDXbCw", 
+                            apikey: "pk.eyJ1IjoiZHJhZ29uc2t5IiwiYSI6Inl1TGc5eVUifQ.sMGhI3VW_pQRIqGViDXbCw",
                                   //"pk.eyJ1IjoidG9tYmF0b3NzYWxzIiwiYSI6Imo3MWxyTHMifQ.TjXg_IV7ZYMHX6tqjMikPg",
                             mapid:  "dragonsky.tombatossals"
                                   //"i5ho0lna.jbn2nnon"
@@ -34,7 +36,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                         url: 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
                         type: 'xyz'
                     }
-               } 
+               }
             },
             defaults: {
                 scrollWheelZoom: false,
@@ -56,15 +58,20 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                          marker: true,
                        },
                       //edit: false
-                    }   
+                    }
           }
         });
+<<<<<<< HEAD
+=======
+
+>>>>>>> 352271d9df8e8c8e72ef9126023cf5081d47de80
 
         $scope.coordinates = {};
 
         $scope.markers = [];
 
-        $scope.clickEvent = function (e, args) {
+        $scope.clickToAddCoordinatesEvent = function (e, args) {
+						$scope.markers=[]
             $scope.markers.push({
                 lat: args.leafletEvent.latlng.lat,
                 lng: args.leafletEvent.latlng.lng
@@ -74,13 +81,13 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
         }
 
         // $scope.$on('leafletDirectiveMap.click', function(e, args) {
-            
+
         // });
 
         $scope.activateEvents = function () {
-            $scope.$on('leafletDirectiveMap.click', $scope.clickEvent);
+            $scope.$on('leafletDirectiveMap.click', $scope.clickToAddCoordinatesEvent);
         }
-        
+
         // Calender tests
 
         $scope.today = function() {
@@ -117,6 +124,6 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
           $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
           $scope.format = $scope.formats[0];
 
-      }
 
+    }
 ]);
