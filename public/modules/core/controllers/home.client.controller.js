@@ -39,7 +39,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                }
             },
             defaults: {
-                scrollWheelZoom: false,
+                scrollWheelZoom: true,
                 controls: {
                     layers: {
                         visible: true,
@@ -61,10 +61,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                     }
           }
         });
-<<<<<<< HEAD
-=======
 
->>>>>>> 352271d9df8e8c8e72ef9126023cf5081d47de80
 
         $scope.coordinates = {};
 
