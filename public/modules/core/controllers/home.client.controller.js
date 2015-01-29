@@ -9,13 +9,10 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
     // Leaflet angular
 		angular.extend($scope, {
             center: {
-<<<<<<< HEAD
+
                 autoDiscover: true
             },
-=======
-                autoDiscover: true,
-            },
->>>>>>> 463a5278766e3bb87b287d55a6e5995c52378d85
+
             layers: {
                 baselayers: {
                     osm: {
