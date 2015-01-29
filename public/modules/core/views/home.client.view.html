@@ -6,25 +6,31 @@
     <div data-ng-controller="InfoController">
         <i class="fa fa-info" id="app_info_button" ng-click="open()" ng_dialog_class="ngdialog-theme-default"></i>
     </div>
-    
+
+    <div class="comments" ng-controller="NewCommentController">
+      URL: <input type="url" ng-model="comment.url" /><br />
+      Comment: <input type="text" ng-model="comment.text" /><br />
+      Rating: <rating ng-model="comment.rating"></rating><br />
+      Coordinates:<br />
+      Lattitude: <input type="number" ng-change="changeCoordinates()" ng-model="lat" /><br />
+      Longitude: <input type="number" ng-change="changeCoordinates()" ng-model="lng" /><br />
+      <button class="btn btn-default" ng-click="">Get Coordinates from Map</button><br />
+      Timeframe:<br />
+      Begin:<br />
+      End:<br />
+      Tags:<span class="tag" ng-repeat="tag in comment.tags">{{tag}}<i class="fa fa-times" ng-click="removeTag(tag)"></i></span><br />
+      <input type="text" ng-model="tag_input" /> <button class="btn btn-default" ng-click="addTag(tag_input)">Add Tag</button><br />
+      Additional Ressources:<br />
+      <input type="url" ng-model="additionalressource_input" /><button class="btn btn-default" ng-click="addAdditionalRessource(additionalressource_input)">Add Additional Ressource</button><br />
+
+      Comment: {{comment|json}}
+      {{lat}}
+      <br />
 
 
-    <div class="comments">
+      <button class="btn btn-success" ng-click="submitComment()">Submit Comment</button><br />
+        <button class="btn btn-success" ng-click="activateEvents()">Neu anlegen</button>
 
-        <div class="place">
-            <h3>Neues Thema erstellen</h3>
-            <!-- <button class="btn btn-success" ng-click="activateEvents()">Neu anlegen</button> -->
-            <div class="contribution">
-                <form class="contribution-form ng-valid ng-valid-required ng-dirty" name="contribution_form" novalidate="">
-                    <input ng_focus="startNewTopic()" placeholder="Titel" type="text">
-                    
-
-                    <div id="new-topic-container">
-                        <button class="btn btn-success" ng-click="activateEvents()">Neu anlegen</button>
-                    </div>
-                </form>
-            </div>
-        </div>
         <pre ng-model="coordinates">{{coordinates.lat}}</pre>
         <pre ng-model="coordinates">{{coordinates.lng}}</pre>
         <pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
@@ -53,6 +59,7 @@
                 </select>
             </div>
         </div>
+
 
         <hr />
         <button type="button" class="btn btn-sm btn-info" ng-click="today()">Today</button>
