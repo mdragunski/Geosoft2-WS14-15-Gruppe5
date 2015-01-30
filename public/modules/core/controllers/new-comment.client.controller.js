@@ -4,9 +4,20 @@ angular.module('core').controller('NewCommentController', ['$scope', '$http',
 	function($scope, $http) {
 		$scope.comment ={
 			tags:[],
-			additionalressources:[]
+			additionalressources:[],
+			georeference:{
+				type: "Feature",
+				geometry: {
+					type: "Point",
+					coordinates: []
+				}
+			}
 		}
-		$scope.comment.georeference = $scope.lat+' , '+$scope.lng;
+
+		$scope.changeCoordinates= function(){
+			$scope.comment.georeference.geometry.coordinates =[$scope.lat, $scope.lng];
+		}
+
 
 
 		$scope.addTag = function(tag){
@@ -14,11 +25,24 @@ angular.module('core').controller('NewCommentController', ['$scope', '$http',
 				$scope.comment.tags.push(tag);
 			}
 
-			$scope.tag_input='';
+			$scope.tag_input=null;
 
 		}
+
+		$scope.removeTag = function(tag){
+			for (var i=0; i<$scope.comment.tags.length; i++){
+				if(tag== $scope.comment.tags[i]){
+					$scope.comment.tags.splice(i,1);
+				}
+			}
+		}
 		$scope.addAdditionalRessource = function(ressource){
-			$scope.comment.additionalressources.push(ressource);
+			if (ressource != null && ressource!=""){
+				$scope.comment.additionalressources.push(ressource);
+				$scope.additionalressource_input=null;
+			}
+
+
 		}
 
 		$scope.submitComment = function(){

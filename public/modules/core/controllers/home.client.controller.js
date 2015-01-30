@@ -1,21 +1,18 @@
 'use strict';
 
 
-angular.module('core').controller('HomeController', ['$scope', 'Authentication',
-	function($scope, Authentication) {
+angular.module('core').controller('HomeController', ['$scope', 'Authentication', '$http',
+	function($scope, Authentication, $http) {
 		// This provides Authentication context.
 		$scope.authentication = Authentication;
 
     // Leaflet angular
 		angular.extend($scope, {
             center: {
-<<<<<<< HEAD
+
                 autoDiscover: true
             },
-=======
-                autoDiscover: true,
-            },
->>>>>>> 463a5278766e3bb87b287d55a6e5995c52378d85
+
             layers: {
                 baselayers: {
                     osm: {
@@ -42,7 +39,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                }
             },
             defaults: {
-                scrollWheelZoom: false,
+                scrollWheelZoom: true,
                 controls: {
                     layers: {
                         visible: true,
