@@ -1,60 +1,22 @@
 'use strict';
 
-angular.module('core').controller('SearchController', ['$scope',
-	function($scope) {
-		$scope.comments = [
-	{
-		'url':'google.de',
-		'creationdate':1421649549816,
-		'text':'blub',
-		'rating':3,
-		'timereference':1421614649816,
-		'georeference':'blub',
-		'tags':[
-		'bla',
-		'bla2',
-		'bla3'
-		],
-		'additionalressources':[
-		'blub'
-		],
-		'username':'anonymous'
-	},
-{
-	'url':'google.de',
-	'creationdate':1424614649816,
-	'text':'blub2 elefant',
-	'rating':4,
-	'timereference':1421614649816,
-	'georeference':'blub',
-	'tags':[
-	'bla',
-	'bla2',
-	'bla3'
-	],
-	'additionalressources':[
-	'blub'
-	],
-	'username':'anonymous'
-},
-{
-	'url':'google.de',
-	'creationdate':1391614644756,
-	'text':'blub hallo',
-	'rating':3,
-	'timereference':1421614649816,
-	'georeference':'blub',
-	'tags':[
-	'bla',
-	'bla2',
-	'bla3'
-	],
-	'additionalressources':[
-	'blub'
-	],
-	'username':'anonymous'
-}
-];
+angular.module('core').controller('SearchController', ['$scope', '$http',
+	function($scope, $http) {
+
+		$scope.getComments = function(){
+			$http.get('/comments').
+			success(function(data, status, headers, config) {
+				$scope.comments = data;
+
+			}).
+			error(function(data, status, headers, config) {
+
+			});
+		}
+
+		$scope.aSearch=0;
+
+
 
 $scope.open = function($event) {
 	$event.preventDefault();

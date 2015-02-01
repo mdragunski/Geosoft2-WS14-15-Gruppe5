@@ -83,6 +83,14 @@ input {
 .comment{
 	border-style:solid;
 	border-width:1px;
+}
+.newComment{
+	font-weight:500;
+	text-align:left;
+	padding-left:8px;
+	padding-right:8px;
+	margin-top:8px;
+}
 
 .tag{
 	background-color:lightgrey;

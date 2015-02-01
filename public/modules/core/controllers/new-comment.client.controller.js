@@ -1,7 +1,10 @@
 'use strict';
 
-angular.module('core').controller('NewCommentController', ['$scope', '$http',
-	function($scope, $http) {
+angular.module('core').controller('NewCommentController', ['$scope', '$http', 'Authentication',
+	function($scope, $http, Authentication) {
+
+		$scope.authentication= Authentication;
+
 		$scope.comment ={
 			tags:[],
 			additionalressources:[],
@@ -17,6 +20,19 @@ angular.module('core').controller('NewCommentController', ['$scope', '$http',
 		$scope.changeCoordinates= function(){
 			$scope.comment.georeference.geometry.coordinates =[$scope.lat, $scope.lng];
 		}
+
+		$scope.openDatepicker = function($event, picker) {
+			$event.preventDefault();
+			$event.stopPropagation();
+
+			if(picker=='startPicker'){
+				$scope.pickerStartOpened = true;
+			}
+			else if(picker == 'endPicker'){
+				$scope.pickerEndOpened = true;
+			}
+
+		};
 
 
 
