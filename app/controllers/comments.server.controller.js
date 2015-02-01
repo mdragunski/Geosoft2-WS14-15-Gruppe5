@@ -17,11 +17,14 @@ exports.create = function(req, res) {
 };
 
 /**
- * Show the current Comment
+ * Show the aquired comment or if more comments exist for the same
+ * ressource a whole thread is returned  
  */
 exports.read = function(req, res) {
-	Comment.load(req.params.commentId, function(err, comment){
-		res.jsonp(comments);
+	Comment.getComment(req.params.commentId, function(err, comment){
+    	Comment.find({ 'url' : comment.url}, function(err, thread) {
+		res.jsonp(thread);
+		});
 	});
 };
 
@@ -40,7 +43,7 @@ exports.delete = function(req, res) {
 };
 
 /**
- * List of Comments
+ * Return all Comments in database
  */
 exports.list = function(req, res) {
         Comment.find().exec(function(err, comments)

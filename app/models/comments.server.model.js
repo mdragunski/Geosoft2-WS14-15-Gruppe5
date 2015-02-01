@@ -35,17 +35,15 @@ CommentsSchema.virtual('commentId').get(function() {
 /**
  * Function for returning comments
  */
-CommentsSchema.getComment = {
-	load: function(id, cb){
-		this.findOne({_id : id}).exec(cb);
-		}
+CommentsSchema.statics.getComment = function(id, cb){
+    return this.findOne({_id : id}).exec(cb); 
 };
+
 
 /**
 * Add text search capabilities to the comments-model
  */
 CommentsSchema.plugin(textSearch);
-
 
 /**
 * Add a text index to the tags array
