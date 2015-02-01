@@ -30,14 +30,45 @@ exports.read = function(req, res) {
  * Search for Comments by API
  */
 exports.search = function(req, res) {
+	var resPath = req.originalUrl;
+	var hostname = req.hostname;
 	var searchReq = req.query.q;
-	var count = req.query.count
-	Comment.textSearch(searchReq, function(err, output){
-		if (err) return handleError(err);
+	var commentVals = [];
+	var commentFct = '/comments/';
+	var srvUrlType = 'http://';
+	var srvUrl = srvUrlType += hostname;
+	var resBaseUrl = srvUrl;
+	var resUrl = resBaseUrl += req.originalUrl;
+        var commentFctUrl = srvUrl += commentFct;
+	var count = parseInt(req.query.count);
+	var searchoptions = {};
+	if (!isNaN(count)) {
+		if (count!=0){
+			var searchoptions = { limit: count };
+		}
 		else {
-			var results = output.results;
-			// var returnval = results.select('obj');
-                	res.jsonp(results);
+			var noComment = { ressource: resUrl, comments: []};
+			res.jsonp(noComment);
+		}
+	}
+	Comment.textSearch(searchReq, searchoptions, function(err, output){
+		if (err) return res.status(400).send({
+                	message: 'No search-request given (search?q=searchtext)'
+		});
+		else {
+			var resultObjects = output.results;
+			var resultItems = Object.keys(resultObjects);
+			resultItems.forEach(function(item) {
+				var commentId = resultObjects[item].obj._id;
+				var commentIdUrl = commentFctUrl += commentId;
+				var commentText = resultObjects[item].obj.text;
+				var commentRating = resultObjects[item].obj.rating;
+				var commentUrl = resultObjects[item].obj.url;
+				var comment = { id: commentIdUrl, text: commentText, rating: commentRating, itemUnderReview: commentUrl };
+				commentVals.push(comment);
+			});
+			var returnVal = { resource: resUrl, comments: commentVals };
+                	res.jsonp(returnVal);
 		}
   	});
 };
