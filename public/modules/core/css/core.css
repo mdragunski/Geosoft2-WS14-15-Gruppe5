@@ -64,7 +64,6 @@ input {
 	box-shadow: rgba(0,0,0,0.1) -2px 0px 0px;
 }
 
-<<<<<<< HEAD
 
 #search_input{
 	width:100%;
@@ -84,6 +83,7 @@ input {
 .comment{
 	border-style:solid;
 	border-width:1px;
+	margin:4px;
 }
 .newComment{
 	font-weight:500;

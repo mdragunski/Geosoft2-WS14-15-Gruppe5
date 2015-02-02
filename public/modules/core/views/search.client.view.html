@@ -31,7 +31,7 @@
 			{{advSearch|json}}
 
 			<div class="comment" ng-repeat="comment in comments | filter:query | advancedSearch:advSearch:showAdvancedSearch | orderBy:creationdate:reverse">
-				<a href={{comment.url}}>{{comment.url}}</a></br>
+				<a ng-href="/comment/{{comment._id}}">{{comment.url}}</a><a href={{comment.url}}><i class="fa fa-external-link"></i></a><i class="fa fa-clipboard"></i></br>
 
 				<p>
 					{{comment.text}}
