@@ -1,6 +1,5 @@
 'use strict';
 
 module.exports = function(app) {
-	// Routing logic   
-	// ...
+	app.route('/parser/:url').get( parsers.parseRouter);
 };

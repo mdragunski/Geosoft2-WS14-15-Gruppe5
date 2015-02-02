@@ -13,6 +13,11 @@
 		"postinstall": "bower install --config.interactive=false"
 	},
 	"dependencies": {
+		"xml2js": "~0.4.4",
+		"microformat-node": "~0.2.15",
+		"jsonix": "~2.1.1",
+		"w3c-schemas": "~1.0.3",
+		"ogc-schemas" : "~2.0.2",
 		"express": "~4.10.1",
 		"express-session": "~1.9.1",
 		"body-parser": "~1.9.0",
