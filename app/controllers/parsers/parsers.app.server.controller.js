@@ -35,6 +35,7 @@ var parser = require("./parsers.parser.server.controller");;
 //takes a service string and routes it to the right parser
 function parseRouter(_url, res) {
 	//get the detected service and route the url to the right parser
+	console.log(_url.body);
 	switch (detect(_url)) {
 
 		case "WMS":
