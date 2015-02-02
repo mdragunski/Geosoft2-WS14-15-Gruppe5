@@ -6,24 +6,31 @@
 		<button class="btn btn-success" ng-click="getComments()">get Comments</button>
 		<input id="search_input" ng-model="query">
 		<div id="search_advanced" ng-show="showAdvancedSearch" ng-init="showAdvancedSearch=false">
-			Rating:<rating ng-model="aSearch.rating"></rating><br />
-			Location:<input ng-model="aSearch.location" /><br />
-			Temporal:<input ng-model="aSearch.temporal" /><br />
+			Rating:<rating ng-model="advSearch.rating"></rating><br />
+			Location:<input ng-model="advSearch.location" /><br />
+			Temporal:<br  />
+			Begin:<br />
 			<p class="input-group">
-				<input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="advanced_startdate" is-open="opened"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)"  close-text="Close" />
+				<input type="text" ng-model="advSearch.startdate" datepicker-popup="yyyy-MM-dd" is-open="pickerSearchStartOpened"  close-text="Close" />
 				<span class="input-group-btn">
-					<button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+					<button type="button" class="btn btn-default" ng-click="openDatepicker($event, 'searchStartPicker')"><i class="glyphicon glyphicon-calendar"></i></button>
 				</span>
 			</p>
-
+			End:<br />
+			<p class="input-group">
+				<input type="text" ng-model="advSearch.enddate" datepicker-popup="yyyy-MM-dd" is-open="pickerSearchEndOpened"  close-text="Close" />
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-default" ng-click="openDatepicker($event, 'searchEndPicker')"><i class="glyphicon glyphicon-calendar"></i></button>
+				</span>
+			</p>
 
 
 		</div>
 		<a ng-click="showAdvancedSearch= !showAdvancedSearch">Advanced Search</a>
 		<div id="search_result">
-			{{aSearch|json}}
+			{{advSearch|json}}
 
-			<div class="comment" ng-repeat="comment in comments | filter:query | advancedSearch:aSearch:showAdvancedSearch | orderBy:creationdate:reverse">
+			<div class="comment" ng-repeat="comment in comments | filter:query | advancedSearch:advSearch:showAdvancedSearch | orderBy:creationdate:reverse">
 				<a href={{comment.url}}>{{comment.url}}</a></br>
 
 				<p>
