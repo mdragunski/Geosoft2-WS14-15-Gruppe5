@@ -49,7 +49,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                     }
                 }
             },
-            controls: {
+            /*controls: {
                     draw: {
                       draw: {
                          polyline: false,
@@ -60,7 +60,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                        },
                       //edit: false
                     }
-          }
+            }*/
         });
 
 
