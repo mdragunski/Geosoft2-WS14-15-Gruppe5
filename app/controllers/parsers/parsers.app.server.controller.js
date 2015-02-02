@@ -134,3 +134,5 @@ function contains(a, obj) {
     }
     return false;
 };
+
+exports.parseRouter = parseRouter;

@@ -1,5 +1,6 @@
 'use strict';
 
 module.exports = function(app) {
-	app.route('/parser/:url').get( parsers.parseRouter);
+	var parser = require('../../app/controllers/parser.server.controller');
+	app.route('/parser/:url').get(parser.parseRouter);
 };
