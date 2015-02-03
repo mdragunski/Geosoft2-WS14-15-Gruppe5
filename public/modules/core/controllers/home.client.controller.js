@@ -69,13 +69,10 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
         $scope.markers = [];
 
         $scope.clickToAddCoordinatesEvent = function (e, args) {
-						$scope.markers=[]
-            $scope.markers.push({
-                lat: args.leafletEvent.latlng.lat,
-                lng: args.leafletEvent.latlng.lng
-            });
-            $scope.coordinates.lat = args.leafletEvent.latlng.lat;
-            $scope.coordinates.lng = args.leafletEvent.latlng.lng;
+
+					$scope.comment.georeference.geometry.coordinates[0] = args.leafletEvent.latlng.lat;
+					$scope.comment.georeference.geometry.coordinates[1] = args.leafletEvent.latlng.lng;
+					$scope.$on('leafletDirectiveMap.click', null);
         }
 
 
@@ -96,6 +93,16 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 							coordinates: []
 						}
 					}
+				}
+
+				$scope.parseUrl= function (url){
+					$http.post('/parser',$scope.comment.url).
+					success(function(data, status, headers, config) {
+						$scope.parser=data;
+						$window.alert("success");
+
+					});
+
 				}
 
 				$scope.changeCoordinates= function(){

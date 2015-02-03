@@ -12,9 +12,9 @@
       Comment: <input type="text" ng-model="comment.text" /><br />
       Rating:<br /> <rating ng-model="comment.rating"></rating><br />
       Coordinates:<br />
-      Lattitude: <input type="number" ng-change="changeCoordinates()" ng-model="lat" /><br />
-      Longitude: <input type="number" ng-change="changeCoordinates()" ng-model="lng" /><br />
-      <button class="btn btn-default" ng-click="">Get Coordinates from Map</button><br />
+      Lattitude: <input type="number" ng-model="comment.georeference.geometry.coordinates[0]" /><br />
+      Longitude: <input type="number" ng-model="comment.georeference.geometry.coordinates[1]" /><br />
+      <button class="btn btn-default" ng-click="activateEvents()">Get Coordinates from Map</button><br />
       Timeframe:<br />
       Begin:<br />
       <p class="input-group">
@@ -36,7 +36,7 @@
       <input type="url" ng-model="additionalressource_input" /><button class="btn btn-default" ng-click="addAdditionalRessource(additionalressource_input)">Add Additional Ressource</button><br />
 
       Comment: {{comment|json}}<br />
-      {{authentication}}
+      {{authentication}}{{parser|json}}
       <br />
 
 
