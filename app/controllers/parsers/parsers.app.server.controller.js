@@ -5,11 +5,13 @@
 */
 
 //dependencies
-var url = require("url");
+var URL = require("url");
 var fs = require('fs');
 var builder = require("./parsers.builder.server.controller");
-var parser = require("./parsers.parser.server.controller");;
-
+var parser = require("./parsers.parser.server.controller");
+var _ = require('lodash');
+var mongoose = require('mongoose');
+var Parser = mongoose.model("Parser");
 //example initializations
 
 //WMS working 1.1.0
@@ -33,47 +35,49 @@ var parser = require("./parsers.parser.server.controller");;
 //parseRouter("http://microformatshiv.com/h-geo.html");
 
 //takes a service string and routes it to the right parser
-function parseRouter(_url, res) {
+exports.parseRouter = function (_url, res) {
 	//get the detected service and route the url to the right parser
-	console.log(_url.body);
-	switch (detect(_url)) {
+	//var URL = new Parser(_url.body.url);
+	var uri = _url.body.url;
+	//console.log(typeof URL.url);
+	switch (detect(uri)) {
 
 		case "WMS":
 			console.log("WMS router started");
-			var getCbs = builder.buildWMS(_url);
+			var getCbs = builder.buildWMS(uri);
 			parser.parseWMS(getCbs, res);
 			break;
 		case "WCS":
 			console.log("WCS router started");
-			var getCbs = builder.buildWCS(_url);
+			var getCbs = builder.buildWCS(uri);
 			parser.parseWCS(getCbs, res);
 			break;
 		case "WFS":
 			console.log("WFS router started");
-			var getCbs = builder.buildWFS(_url);
+			var getCbs = builder.buildWFS(uri);
 			parser.parseWFS(getCbs, res);
 			break;
 		case "CSW":
 			console.log("CSW router started");
-			var getCbs = builder.buildCSW(_url);
+			var getCbs = builder.buildCSW(uri);
 			parser.parseCSW(getCbs, res);
 			break;
 		case "SOS":
 			console.log("SOS router started");
-			var getCbs = builder.buildSOS(_url);
+			var getCbs = builder.buildSOS(uri);
 			parser.parseSOS(getCbs, res);
 			break;
 		case "KML":
 			console.log("KML router started");
-			parser.parseKML(_url, res);
+			parser.parseKML(uri);
 			break;
 		case "GML":
 			console.log("GML router started");
-			parser.parseGML(_url, res);
+			parser.parseGML(uri);
 			break;
 		case "MICRO":
 			console.log("microformats router started");
-			parser.parseMicro(_url, res);
+			parser.parseMicro(uri);
 			break;
 	}
 
@@ -91,14 +95,14 @@ function detect(_url) {
 		kml = "KML",
 		gml = "XML";
 	//extract query from url
-	var query = url.parse(_url).query;
+	var query = URL.parse(_url).query;
 	//check if there is a query part, if yes use it for check
 	if (query !== null){
 		query = query.replace("?", "").split("&");
 	}
 	//if not use the path instead
 	else {
-		query = url.parse(_url).path.split(".");
+		query = URL.parse(_url).path.split(".");
 	}
 	//check query/path for keywords
 	if (contains(query, wms)){
@@ -135,5 +139,3 @@ function contains(a, obj) {
     }
     return false;
 };
-
-exports.parseRouter = parseRouter;

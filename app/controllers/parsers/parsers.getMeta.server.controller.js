@@ -102,9 +102,23 @@ function getMetaWFS(json) {
 
 //takes csw json object and returns metadata
 function getMetaCSW(json) {
-	//TODO
+	var bbox = { "type" : "Feature",
+				 "geometry" : {
+				 	"type" : "Polygon",
+					"coordinates": [
+						  [
+							[0, 0], 
+							[0, 0], 
+							[0, 0], 
+							[0, 0], 
+							[0, 0]
+						  ]
+					  ]
+				   }
+			   };
+	
 
-		return ;
+		return bbox;
 }
 
 //takes sos json object and returns a bbox as a polygon feature

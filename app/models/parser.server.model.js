@@ -10,8 +10,6 @@ var mongoose = require('mongoose'),
  * Parser Schema
  */
 var ParserSchema = new Schema({
-	// Parser model fields   
-	// ...
 });
 
 mongoose.model('Parser', ParserSchema);
