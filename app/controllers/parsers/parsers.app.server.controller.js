@@ -12,12 +12,12 @@ var parser = require("./parsers.parser.server.controller");
 var _ = require('lodash');
 var mongoose = require('mongoose');
 var Parser = mongoose.model("Parser");
+var validate = require('validator');
 //example initializations
 
 //WMS working 1.1.0
 //parseRouter("http://www.wms.nrw.de/geobasis/wms_nw_dgk5?service=WMS");
 //WCS working 2.0
-//parseRouter("http://acdisc.sci.gsfc.nasa.gov/daac-bin/wcsAIRSL3?SERVICe=WCS&Version=1.0.0&Request=getCapabilities");
 //parseRouter("http://ogi.state.ok.us/geoserver/wcs?REQUEST=GetCapabilities&SERVICE=WCS");
 //WFS working 1.1.0 - 2.0
 //parseRouter("http://giswebservices.massgis.state.ma.us/geoserver/wfs?SERVICE=wfs&VERSION=1.0.0&REQUEST=GetCapabilities");
@@ -35,11 +35,13 @@ var Parser = mongoose.model("Parser");
 //parseRouter("http://microformatshiv.com/h-geo.html");
 
 //takes a service string and routes it to the right parser
-exports.parseRouter = function (_url, res) {
+exports.parseRouter = function (_url, res, next) {
 	//get the detected service and route the url to the right parser
-	//var URL = new Parser(_url.body.url);
 	var uri = _url.body.url;
-	//console.log(typeof URL.url);
+	if (!validate.isURL(uri,['http', 'https'])){
+			next(new Error("No valid URL given!"));
+		}
+	else {
 	switch (detect(uri)) {
 
 		case "WMS":
@@ -69,23 +71,22 @@ exports.parseRouter = function (_url, res) {
 			break;
 		case "KML":
 			console.log("KML router started");
-			parser.parseKML(uri);
+			parser.parseKML(uri, res);
 			break;
 		case "GML":
 			console.log("GML router started");
-			parser.parseGML(uri);
+			parser.parseGML(uri, res);
 			break;
 		case "MICRO":
 			console.log("microformats router started");
-			parser.parseMicro(uri);
+			parser.parseMicro(uri, res);
 			break;
 	}
-
-
+}
 }
 
 //takes an url and returns the string of the service to parse
-function detect(_url) {
+function detect(uri) {
 	
 	var wms = "SERVICE=WMS",
 		wcs = "SERVICE=WCS",
@@ -95,14 +96,14 @@ function detect(_url) {
 		kml = "KML",
 		gml = "XML";
 	//extract query from url
-	var query = URL.parse(_url).query;
+	var query = URL.parse(uri).query;
 	//check if there is a query part, if yes use it for check
 	if (query !== null){
 		query = query.replace("?", "").split("&");
 	}
 	//if not use the path instead
 	else {
-		query = URL.parse(_url).path.split(".");
+		query = URL.parse(uri).path.split(".");
 	}
 	//check query/path for keywords
 	if (contains(query, wms)){
