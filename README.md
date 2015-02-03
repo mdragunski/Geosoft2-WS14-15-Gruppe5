@@ -3,7 +3,7 @@
 
 **GeoRate** is a community driven geo-ressource commenting platform with a vast scalabilty for different geo-data-formats. It´s completely written in JavaScript and relies on the MEAN-Stack. The whole system is very easy to set-up because of the use of Vagrant.
 
-The Project is part of the course "Geoinformatic 2" at the Westfalian Wilhelms-University of Münster (Germany) and was developed by Ba. Sc. students.
+The Project is part of the course "Geoinformatic 2" at the Westfalian Wilhelms-University of Münster (Germany) and was developed by B.Sc. students.
 
 The developer-group (Group-5) consits of the following members:
 
@@ -24,7 +24,7 @@ For instructions how to install **GeoRate**, please look at the GeoRate-Wiki.
 
 ## API ##
 
-If you want to program applications, which use GeoRate, you can use our JSON-REST-API. Informations about the API can be fond here.
+If you want to program applications, which use GeoRate, you can use our JSON-REST-API. Informations about the API can be found at the GeoRate-Wiki.
 
 ## Licence ##
 
