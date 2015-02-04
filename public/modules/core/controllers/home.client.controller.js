@@ -153,11 +153,11 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 				$scope.submitComment = function(){
 						$http.post('/comments',$scope.comment)
 						.success(function(data, status, headers, config) {
-							Console.log('success');
+							console.log('success');
 						})
 						.
 						error(function(data, status, headers, config) {
-							Console.log('error');
+							console.log('error');
 						});
 						$scope.showNewComment=false;
 
