@@ -9,6 +9,11 @@ var mongoose = require('mongoose'),
 	textSearch = require('mongoose-text-search'),
 	ObjectId = Schema.ObjectId;
 
+	var TimeReferenceShema = new Schema({
+		startdate:{type: Date,default:null},
+		enddate: {type:Date,default:null}
+	});
+
 /**
  * Comments Schema
  */
@@ -17,8 +22,7 @@ var CommentsSchema = new Schema({
 	creationdate: { type: Date, default: Date.now },
 	text: { type: String, required: true },
 	rating: {type: Number, min: 0, max: 5, default: 0},
-	startdate: Date,
-	enddate: Date,
+	timereference:TimeReferenceShema,
 	georeference: GeoJSON.Feature,
 	tags: [String],
 	additionalressources: [String],
@@ -37,7 +41,7 @@ CommentsSchema.virtual('commentId').get(function() {
  * Function for returning comments
  */
 CommentsSchema.statics.getComment = function(id, cb){
-    return this.findOne({_id : id}).exec(cb); 
+    return this.findOne({_id : id}).exec(cb);
 };
 
 

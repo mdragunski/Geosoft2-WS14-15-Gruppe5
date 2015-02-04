@@ -125,3 +125,8 @@ input {
 #search_results{
 
 }
+
+.alert {
+	margin-bottom: 8px;
+	padding: 8px
+}

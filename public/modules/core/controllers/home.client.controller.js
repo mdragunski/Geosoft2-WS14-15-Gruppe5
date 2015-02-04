@@ -7,28 +7,28 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 		$scope.authentication = Authentication;
 
     // Leaflet angular
-		angular.extend($scope, {
-						bounds:{},
-            center: {
+    angular.extend($scope, {
+    	bounds:{},
+    	center: {
 
-                autoDiscover: true
-            },
+    		autoDiscover: true
+    	},
 
-            layers: {
-                baselayers: {
-                    osm: {
-                        name: 'OpenStreetMap',
-                        url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                        type: 'xyz'
-                    },
-                    mapboxTerrain: {
-                        name: 'Mapbox Terrain',
-                        url: 'http://api.tiles.mapbox.com/v4/{mapid}/{z}/{x}/{y}.png?access_token={apikey}',
-                        type: 'xyz',
-                        layerOptions: {
-                            apikey: "pk.eyJ1IjoiZHJhZ29uc2t5IiwiYSI6Inl1TGc5eVUifQ.sMGhI3VW_pQRIqGViDXbCw",
+    	layers: {
+    		baselayers: {
+    			osm: {
+    				name: 'OpenStreetMap',
+    				url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    				type: 'xyz'
+    			},
+    			mapboxTerrain: {
+    				name: 'Mapbox Terrain',
+    				url: 'http://api.tiles.mapbox.com/v4/{mapid}/{z}/{x}/{y}.png?access_token={apikey}',
+    				type: 'xyz',
+    				layerOptions: {
+    					apikey: "pk.eyJ1IjoiZHJhZ29uc2t5IiwiYSI6Inl1TGc5eVUifQ.sMGhI3VW_pQRIqGViDXbCw",
                                   //"pk.eyJ1IjoidG9tYmF0b3NzYWxzIiwiYSI6Imo3MWxyTHMifQ.TjXg_IV7ZYMHX6tqjMikPg",
-                            mapid:  "dragonsky.tombatossals"
+                                  mapid:  "dragonsky.tombatossals"
                                   //"i5ho0lna.jbn2nnon"
                         }
                     },
@@ -53,20 +53,20 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 
 
 
-        $scope.markers = [];
+$scope.markers = [];
 
-        $scope.clickToAddCoordinatesEvent = function (e, args) {
+$scope.clickToAddCoordinatesEvent = function (e, args) {
 
-					$scope.comment.georeference.geometry.coordinates[0] = args.leafletEvent.latlng.lat;
-					$scope.comment.georeference.geometry.coordinates[1] = args.leafletEvent.latlng.lng;
-					$scope.$on('leafletDirectiveMap.click', null);
-        }
+	$scope.comment.georeference.geometry.coordinates[0] = args.leafletEvent.latlng.lat;
+	$scope.comment.georeference.geometry.coordinates[1] = args.leafletEvent.latlng.lng;
+	$scope.$on('leafletDirectiveMap.click', null);
+}
 
 
 
-        $scope.activateEvents = function () {
-            $scope.$on('leafletDirectiveMap.click', $scope.clickToAddCoordinatesEvent);
-        }
+$scope.activateEvents = function () {
+	$scope.$on('leafletDirectiveMap.click', $scope.clickToAddCoordinatesEvent);
+}
 
 				//new Comment
 
@@ -151,12 +151,14 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 				}
 
 				$scope.submitComment = function(){
+					$scope.alerts = [];
+					if($scope.validate()){
+
 						$http.post('/comments',$scope.comment)
 						.success(function(data, status, headers, config) {
 							console.log('success');
 						})
-						.
-						error(function(data, status, headers, config) {
+						.error(function(data, status, headers, config) {
 							console.log('error');
 						});
 						$scope.showNewComment=false;
@@ -164,14 +166,16 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 
 					}
 
-					$scope.contains = function(obj, array){
-						for(var i=0; i<array.length;i++){
-							if(array[i]==obj){
-								return true;
-							}
+				}
+
+				$scope.contains = function(obj, array){
+					for(var i=0; i<array.length;i++){
+						if(array[i]==obj){
+							return true;
 						}
-						return false;
 					}
+					return false;
+				}
 
 					//search
 					$scope.comments=[];
@@ -235,6 +239,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 							return filteredArray;
 					};
 
+
 					function createMarkersFromComments(array){
 						var mrkrs = [];
 						for (var i=0; i<array.length; i++){
@@ -247,13 +252,46 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 
 					}
 
+					$scope.alerts = [];
 
 
+					$scope.validate = function() {
+						var valid = true;
+						if (typeof $scope.comment.url === 'undefined' || $scope.comment.url === '' || !$scope.validateUrl($scope.comment.url)){
+							valid = false;
+							$scope.alerts.push({ type: 'danger', msg: 'No valid URL!'});
+						}
+						if ($scope.comment.text === '' || typeof $scope.comment.text === 'undefined'){
+							valid = false;
+							$scope.alerts.push({ type: 'danger', msg: 'Comment needed!'});
+						}
+						if (typeof $scope.comment.georeference.geometry.coordinates[0] === 'undefined') {
+							valid = false;
+							$scope.alerts.push({ type: 'danger', msg: 'A valid value has to be set for latitude!'})
+						}
+						if (typeof $scope.comment.georeference.geometry.coordinates[0] === 'undefined'){
+							valid = false;
+							$scope.alerts.push({ type: 'danger', msg: 'A valid value has to be set for longitude!'})
+						}
+						if ($scope.comment.timereference.startdate > $scope.comment.timereference.enddate){
+							valid = false;
+							$scope.alerts.push({ type: 'danger', msg: 'Startdate needs to be settled before enddate!'})
+						}
+						if (!$scope.validateUrl($scope.additionalressource_input)){
+							valid = false;
+							$scope.alerts.push({ type: 'danger', msg: 'No valid URL for additional ressources!'})
+						}
+						return valid;
+					}
+
+					$scope.validateUrl = function(url) {
+						regExp = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
+						if (regExp.test(url)){
+							return true;
+						}
+						return false;
+					}
 
 
-
-
-
-
-    }
-]);
+				}
+			]);

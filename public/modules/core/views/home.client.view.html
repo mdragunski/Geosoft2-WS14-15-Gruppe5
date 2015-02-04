@@ -43,6 +43,7 @@
           Comment: {{comment|json}}<br />
           {{authentication}}{{parser|json}}
           <br />
+          <alert ng-repeat="alert in alerts" type="{{alert.type}}" >{{alert.msg}}</alert>
 
 
           <button class="btn btn-success" ng-click="submitComment()">Submit Comment</button>
@@ -89,6 +90,7 @@
             <p>
               {{comment.text}}
             </p>
+            Timereference:
             {{comment.username}} - {{comment.creationdate|date:medium}} - <rating ng-model=comment.rating readonly=true disabled></rating>
 
           </div>
