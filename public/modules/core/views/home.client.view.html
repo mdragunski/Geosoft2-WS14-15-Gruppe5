@@ -8,11 +8,11 @@
     </div>
 
     <div class="comments newComment" >
-      URL: <input type="url" ng-model="comment.url" ng-blur="parseUrl()"/><br />
+      URL: <input type="url" ng-model="comment.url" ng-blur="parseUrl()" required/>
       Comment: <input type="text" ng-model="comment.text" /><br />
       Rating:<br /> <rating ng-model="comment.rating"></rating><br />
       Coordinates:<br />
-      Lattitude: <input type="number" ng-model="comment.georeference.geometry.coordinates[0]" /><br />
+      Latitude: <input type="number" ng-model="comment.georeference.geometry.coordinates[0]" /><br />
       Longitude: <input type="number" ng-model="comment.georeference.geometry.coordinates[1]" /><br />
       <button class="btn btn-default" ng-click="activateEvents()">Get Coordinates from Map</button><br />
       Timeframe:<br />
@@ -39,7 +39,7 @@
       {{authentication}}{{parser|json}}
       <br />
 
-
+      <alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</alert>
       <button class="btn btn-success" ng-click="submitComment()">Submit Comment</button><br />
       <button class="btn btn-success" ng-click="getComments()">get Comments</button>
       <input id="search_input" ng-model="query">
