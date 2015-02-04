@@ -219,7 +219,7 @@ function getMetaKML(json) {
 }
 
 //takes microformat json object and returns a bbox as a polygon feature
-function getMetaMicro(json) {
+function getMetaMicro(json, response) {
 
 	try {
 	var x = (json.items[0].properties.longitude[0]);
@@ -247,7 +247,8 @@ function getMetaMicro(json) {
 	return bbox;
 	}
 	catch (err) {
-		throw "No supported data format or broken url!";
+		console.log("No supported data format or broken url!");
+		response.jsonp({});
 	}
 }
 

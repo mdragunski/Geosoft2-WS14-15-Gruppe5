@@ -11,7 +11,6 @@
       <button class="btn btn-success" ng-show="!showNewComment" ng-click="showNewComment= !showNewComment">Add new Comment</button>
       <div class = "newComment" ng-show="showNewComment" ng-init="showNewComment=false">
         <h3>Create a new Comment</h3>
-        <form name="newCommentForm">
           URL: <input type="url" ng-model="comment.url" ng-blur="parseUrl()"/><br />
           Comment: <input type="text" ng-model="comment.text" /><br />
           Rating:<br /> <rating ng-model="comment.rating"></rating><br />
@@ -48,8 +47,6 @@
 
           <button class="btn btn-success" ng-click="submitComment()">Submit Comment</button>
           <button class="btn btn-default">Cancel</button><br />
-
-        </form>
 
       </div>
       <div id="search" ng-init="getComments()">

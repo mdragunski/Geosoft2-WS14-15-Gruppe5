@@ -9,7 +9,7 @@ var mongoose = require('mongoose'),
 	textSearch = require('mongoose-text-search'),
 	ObjectId = Schema.ObjectId;
 
-	var TimeReferenceShema = new Schema({
+	var TimeReferenceSchema = new Schema({
 		startdate:{type: Date,default:null},
 		enddate: {type:Date,default:null}
 	});
@@ -22,7 +22,7 @@ var CommentsSchema = new Schema({
 	creationdate: { type: Date, default: Date.now },
 	text: { type: String, required: true },
 	rating: {type: Number, min: 0, max: 5, default: 0},
-	timereference:TimeReferenceShema,
+	timereference: [TimeReferenceSchema],
 	georeference: GeoJSON.Feature,
 	tags: [String],
 	additionalressources: [String],
