@@ -7,65 +7,80 @@
         <i class="fa fa-info" id="app_info_button" ng-click="open()" ng_dialog_class="ngdialog-theme-default"></i>
     </div>
 
-    <div class="comments" ng-controller="NewCommentController">
-      URL: <input type="url" ng-model="comment.url" /><br />
+    <div class="comments newComment" >
+      URL: <input type="url" ng-model="comment.url" ng-blur="parseUrl()"/><br />
       Comment: <input type="text" ng-model="comment.text" /><br />
-      Rating: <rating ng-model="comment.rating"></rating><br />
+      Rating:<br /> <rating ng-model="comment.rating"></rating><br />
       Coordinates:<br />
-      Lattitude: <input type="number" ng-change="changeCoordinates()" ng-model="lat" /><br />
-      Longitude: <input type="number" ng-change="changeCoordinates()" ng-model="lng" /><br />
-      <button class="btn btn-default" ng-click="">Get Coordinates from Map</button><br />
+      Lattitude: <input type="number" ng-model="comment.georeference.geometry.coordinates[0]" /><br />
+      Longitude: <input type="number" ng-model="comment.georeference.geometry.coordinates[1]" /><br />
+      <button class="btn btn-default" ng-click="activateEvents()">Get Coordinates from Map</button><br />
       Timeframe:<br />
       Begin:<br />
+      <p class="input-group">
+        <input type="text" ng-model="comment.timereference.startdate" datepicker-popup="yyyy-MM-dd" is-open="pickerStartOpened"  close-text="Close" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="openDatepicker($event, 'startPicker')"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </p>
       End:<br />
+      <p class="input-group">
+        <input type="text" ng-model="comment.timereference.enddate" datepicker-popup="yyyy-MM-dd" is-open="pickerEndOpened"  close-text="Close" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="openDatepicker($event, 'endPicker')"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </p>
       Tags:<span class="tag" ng-repeat="tag in comment.tags">{{tag}}<i class="fa fa-times" ng-click="removeTag(tag)"></i></span><br />
       <input type="text" ng-model="tag_input" /> <button class="btn btn-default" ng-click="addTag(tag_input)">Add Tag</button><br />
       Additional Ressources:<br />
       <input type="url" ng-model="additionalressource_input" /><button class="btn btn-default" ng-click="addAdditionalRessource(additionalressource_input)">Add Additional Ressource</button><br />
 
-      Comment: {{comment|json}}
-      {{lat}}
+      Comment: {{comment|json}}<br />
+      {{authentication}}{{parser|json}}
       <br />
 
 
       <button class="btn btn-success" ng-click="submitComment()">Submit Comment</button><br />
-        <button class="btn btn-success" ng-click="activateEvents()">Neu anlegen</button>
+      <button class="btn btn-success" ng-click="getComments()">get Comments</button>
+      <input id="search_input" ng-model="query">
+      <div id="search_advanced" ng-show="showAdvancedSearch" ng-init="showAdvancedSearch=false">
+        Rating:<rating ng-model="advSearch.rating"></rating><br />
+        Location:<input ng-model="advSearch.location" /><br />
+        Temporal:<br  />
+        Begin:<br />
+        <p class="input-group">
+          <input type="text" ng-model="advSearch.startdate" datepicker-popup="yyyy-MM-dd" is-open="pickerSearchStartOpened"  close-text="Close" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="openDatepicker($event, 'searchStartPicker')"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </p>
+        End:<br />
+        <p class="input-group">
+          <input type="text" ng-model="advSearch.enddate" datepicker-popup="yyyy-MM-dd" is-open="pickerSearchEndOpened"  close-text="Close" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="openDatepicker($event, 'searchEndPicker')"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </p>
 
-        <pre ng-model="coordinates">{{coordinates.lat}}</pre>
-        <pre ng-model="coordinates">{{coordinates.lng}}</pre>
-        <pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
 
-        <h4>Inline</h4>
-        <div style="display:inline-block; min-height:290px;">
-            <datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm"></datepicker>
+      </div>
+      <a ng-click="showAdvancedSearch= !showAdvancedSearch">Advanced Search</a>
+      <div id="search_result">
+        {{advSearch|json}}
+
+        <div class="comment" ng-repeat="comment in comments | filter:query | advancedSearch:advSearch:showAdvancedSearch | orderBy:creationdate:reverse">
+          <a ng-href="/comment/{{comment._id}}">{{ comment.url| shortenUrl}}</a><a href={{comment.url}}><i class="fa fa-external-link"></i></a><i class="fa fa-clipboard"></i></br>
+
+          <p>
+            {{comment.text}}
+          </p>
+          {{comment.username}} - {{comment.creationdate|date:medium}} - <rating ng-model=comment.rating readonly=true disabled></rating>
+
         </div>
 
-        <h4>Popup</h4>
-        <div class="row">
-            <div class="col-md-6">
-                <p class="input-group">
-                    <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                      </span>
-                </p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <label>Format:</label>
-                <select class="form-control" ng-model="format" ng-options="f for f in formats">
-                    <option></option>
-                </select>
-            </div>
-        </div>
+      </div>
 
 
-        <hr />
-        <button type="button" class="btn btn-sm btn-info" ng-click="today()">Today</button>
-        <button type="button" class="btn btn-sm btn-default" ng-click="dt = '2009-08-24'">2009-08-24</button>
-        <button type="button" class="btn btn-sm btn-danger" ng-click="clear()">Clear</button>
-        <button type="button" class="btn btn-sm btn-default" ng-click="toggleMin()" tooltip="After today restriction">Min date</button>
-    </div>
+      </div>
 
 </section>

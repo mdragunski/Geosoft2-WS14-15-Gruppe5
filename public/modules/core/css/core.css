@@ -64,9 +64,23 @@ input {
 	box-shadow: rgba(0,0,0,0.1) -2px 0px 0px;
 }
 
-<<<<<<< HEAD
+.comment{
+	border-style:solid;
+	border-width:1px;
+	margin:4px;
+}
+.newComment{
+	font-weight:500;
+	text-align:left;
+	padding-left:8px;
+	padding-right:8px;
+	margin-top:8px;
+}
+
+
 .tag{
-	background-color:lightgrey;
+	background-color:lightblue;
+	padding:2px;
 	margin-left:4px;
 	margin-right:4px;
 }
@@ -95,7 +109,8 @@ input {
 	border: 0;
 	font-size: 100%;
 	vertical-align: baseline;
-=======
+}
+
 #search_input{
 	width:100%;
 	padding:4px;
@@ -104,15 +119,9 @@ input {
 }
 #search_advanced{
 	width:100%;
-	
 	background-color:lightblue;
 
 }
 #search_results{
 
-}
-.comment{
-	border-style:solid;
-	border-width:1px;
->>>>>>> de8cfc40317244a83af816f30adabc05de0c39b1
 }

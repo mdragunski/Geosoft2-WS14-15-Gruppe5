@@ -13,7 +13,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "ubuntu/trusty64"
   config.vm.provision :shell, path: "mean.sh"
   config.vm.network "forwarded_port", guest: 27017, host: 27017
-  config.vm.network "forwarded_port", guest: 3000, host: 3000
+  config.vm.network "forwarded_port", guest: 80, host: 3000
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs

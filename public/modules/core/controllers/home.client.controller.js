@@ -1,13 +1,14 @@
 'use strict';
 
 
-angular.module('core').controller('HomeController', ['$scope', 'Authentication', '$http',
-	function($scope, Authentication, $http) {
+angular.module('core').controller('HomeController', ['$scope', 'Authentication', '$http', '$window',
+	function($scope, Authentication, $http, $window) {
 		// This provides Authentication context.
 		$scope.authentication = Authentication;
 
     // Leaflet angular
 		angular.extend($scope, {
+						bounds:{},
             center: {
 
                 autoDiscover: true
@@ -39,7 +40,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                }
             },
             defaults: {
-                scrollWheelZoom: true,
+                scrollWheelZoom: false,
                 controls: {
                     layers: {
                         visible: true,
@@ -68,58 +69,147 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
         $scope.markers = [];
 
         $scope.clickToAddCoordinatesEvent = function (e, args) {
-						$scope.markers=[]
-            $scope.markers.push({
-                lat: args.leafletEvent.latlng.lat,
-                lng: args.leafletEvent.latlng.lng
-            });
-            $scope.coordinates.lat = args.leafletEvent.latlng.lat;
-            $scope.coordinates.lng = args.leafletEvent.latlng.lng;
+
+					$scope.comment.georeference.geometry.coordinates[0] = args.leafletEvent.latlng.lat;
+					$scope.comment.georeference.geometry.coordinates[1] = args.leafletEvent.latlng.lng;
+					$scope.$on('leafletDirectiveMap.click', null);
         }
 
-        // $scope.$on('leafletDirectiveMap.click', function(e, args) {
 
-        // });
 
         $scope.activateEvents = function () {
             $scope.$on('leafletDirectiveMap.click', $scope.clickToAddCoordinatesEvent);
         }
 
-        // Calender tests
+				//new Comment
 
-        $scope.today = function() {
-            $scope.dt = new Date();
-          };
-          $scope.today();
+				$scope.comment ={
+					tags:[],
+					additionalressources:[],
+					georeference:{
+						type: "Feature",
+						geometry: {
+							type: "Point",
+							coordinates: []
+						}
+					}
+				}
 
-          $scope.clear = function () {
-            $scope.dt = null;
-          };
+				$scope.parseUrl= function (url){
+					$http.post('/parser',{url:$scope.comment.url}).
+					success(function(data, status, headers, config) {
+						$scope.parser=data;
+						$window.alert("success");
 
-          // Disable weekend selection
-          $scope.disabled = function(date, mode) {
-            return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-          };
+					});
+				}
 
-          $scope.toggleMin = function() {
-            $scope.minDate = $scope.minDate ? null : new Date();
-          };
-          $scope.toggleMin();
+				$scope.changeCoordinates= function(){
+					$scope.comment.georeference.geometry.coordinates =[$scope.lat, $scope.lng];
+				}
 
-          $scope.open = function($event) {
-            $event.preventDefault();
-            $event.stopPropagation();
+				$scope.openDatepicker = function($event, picker) {
+					$event.preventDefault();
+					$event.stopPropagation();
 
-            $scope.opened = true;
-          };
+					if(picker=='startPicker'){
+						$scope.pickerStartOpened = true;
+					}
+					else if(picker == 'endPicker'){
+						$scope.pickerEndOpened = true;
+					}
+					else if(picker == 'searchStartPicker'){
+						$scope.pickerSearchStartOpened = true;
+					}
+					else if(picker == 'searchEndPicker'){
+						$scope.pickerSearchEndOpened = true;
+					}
 
-          $scope.dateOptions = {
-            formatYear: 'yy',
-            startingDay: 1
-          };
+				};
 
-          $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-          $scope.format = $scope.formats[0];
+
+
+				$scope.addTag = function(tag){
+					if(!$scope.contains(tag, $scope.comment.tags)&& tag!=''){
+						$scope.comment.tags.push(tag);
+					}
+
+					$scope.tag_input=null;
+
+				}
+
+				$scope.removeTag = function(tag){
+					for (var i=0; i<$scope.comment.tags.length; i++){
+						if(tag== $scope.comment.tags[i]){
+							$scope.comment.tags.splice(i,1);
+						}
+					}
+				}
+				$scope.addAdditionalRessource = function(ressource){
+					if (ressource != null && ressource!=""){
+						$scope.comment.additionalressources.push(ressource);
+						$scope.additionalressource_input=null;
+					}
+
+
+				}
+
+				$scope.submitComment = function(){
+					$http.post('/comments',$scope.comment)
+					.success(function(data, status, headers, config) {
+						Console.log('success');
+					})
+					.
+					error(function(data, status, headers, config) {
+						Console.log('error');})
+					}
+
+					$scope.contains = function(obj, array){
+						for(var i=0; i<array.length;i++){
+							if(array[i]==obj){
+								return true;
+							}
+						}
+						return false;
+					}
+
+					//search
+
+					$scope.getComments = function(){
+						$http.get('/comments').
+						success(function(data, status, headers, config) {
+							$scope.comments = data;
+							$window.alert("success");
+
+						});
+					}
+
+					$scope.getBoundingBox = function (){
+						$scope.advSearch.location = bounds;
+					}
+
+					$scope.advSearch={
+						rating:null,
+						startdate:null,
+						enddate:null,
+						location:null,
+						usertype:null,
+					};
+
+					$scope.userTypes=['user','expert','scientist'];
+
+
+
+					$scope.open = function($event) {
+						$event.preventDefault();
+						$event.stopPropagation();
+
+						$scope.opened = true;
+					};
+
+
+
+
 
 
     }
