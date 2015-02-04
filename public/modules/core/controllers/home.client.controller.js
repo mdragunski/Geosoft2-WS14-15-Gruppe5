@@ -22,13 +22,13 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                         type: 'xyz'
                     },
                     mapboxTerrain: {
-                        name: 'Mapbox Terrain',
+                        name: 'Mapbox',
                         url: 'http://api.tiles.mapbox.com/v4/{mapid}/{z}/{x}/{y}.png?access_token={apikey}',
                         type: 'xyz',
                         layerOptions: {
                             apikey: "pk.eyJ1IjoiZHJhZ29uc2t5IiwiYSI6Inl1TGc5eVUifQ.sMGhI3VW_pQRIqGViDXbCw",
                                   //"pk.eyJ1IjoidG9tYmF0b3NzYWxzIiwiYSI6Imo3MWxyTHMifQ.TjXg_IV7ZYMHX6tqjMikPg",
-                            mapid:  "dragonsky.tombatossals"
+                            mapid:  "dragonsky.i5ho0lna"
                                   //"i5ho0lna.jbn2nnon"
                         }
                     },
@@ -240,7 +240,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 						for (var i=0; i<array.length; i++){
 							var m ={lat:array[i].georeference.geometry.coordinates[0],
 							lng:array[i].georeference.geometry.coordinates[1],
-							message: '<p>'+"Kommentar: "+'<br/>'+array[i].text+'<br/></p><p>'+"Abgegeben von: "+'<br/>'+array[i].username+'</p><a href="'+array[i].url+'">'+array[i].url+'</a>'};
+							message: '<p>'+"Comment: "+'<br/>'+array[i].text+'<br/></p><p>'+"Author: "+'<br/>'+array[i].username+'</p><a href="'+array[i].url+'">'+array[i].url+'</a>'};
 							mrkrs.push(m);
 							$window.alert('blub');
 						}
