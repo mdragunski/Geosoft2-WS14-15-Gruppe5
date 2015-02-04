@@ -240,7 +240,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 						for (var i=0; i<array.length; i++){
 							var m ={lat:array[i].georeference.geometry.coordinates[0],
 							lng:array[i].georeference.geometry.coordinates[1],
-							message:array[i].text};
+							message: '<p>'+"Kommentar: "+'<br/>'+array[i].text+'<br/></p><p>'+"Abgegeben von: "+'<br/>'+array[i].username+'</p><a href="'+array[i].url+'">'+array[i].url+'</a>'};
 							mrkrs.push(m);
 							$window.alert('blub');
 						}
