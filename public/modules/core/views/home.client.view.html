@@ -51,51 +51,51 @@
         </form>
 
       </div>
-      <button class="btn btn-success" ng-click="getComments()">get Comments</button>
-      <input id="search_input" ng-model="query">
-      <div id="search_advanced" ng-show="showAdvancedSearch" ng-init="showAdvancedSearch=false">
-        Rating:<rating ng-model="advSearch.rating"></rating><br />
-        Location:<input ng-model="advSearch.location" /><br />
-        Temporal:<br  />
-        Begin:<br />
-        <p class="input-group">
-          <input type="text" ng-model="advSearch.startdate" datepicker-popup="yyyy-MM-dd" is-open="pickerSearchStartOpened"  close-text="Close" />
-          <span class="input-group-btn">
-            <button type="button" class="btn btn-default" ng-click="openDatepicker($event, 'searchStartPicker')"><i class="glyphicon glyphicon-calendar"></i></button>
-          </span>
-        </p>
-        End:<br />
-        <p class="input-group">
-          <input type="text" ng-model="advSearch.enddate" datepicker-popup="yyyy-MM-dd" is-open="pickerSearchEndOpened"  close-text="Close" />
-          <span class="input-group-btn">
-            <button type="button" class="btn btn-default" ng-click="openDatepicker($event, 'searchEndPicker')"><i class="glyphicon glyphicon-calendar"></i></button>
-          </span>
-        </p>
-
-
-      </div>
-      <a ng-click="showAdvancedSearch= !showAdvancedSearch">Advanced Search</a>
-      <div id="search_result">
-        {{advSearch|json}}<br />
-        <button class="btn btn-default" ng-click="filterComments()">Filter</button>
-        {{filteredComments|json}}<br />
-        Markers:{{markers|json}}
-
-
-
-        <div class="comment" ng-repeat="comment in comments | filter:query | advancedSearch:advSearch:showAdvancedSearch | orderBy:creationdate:reverse">
-          <a ng-href="/comment/{{comment._id}}">{{ comment.url| shortenUrl}}</a><a href={{comment.url}}><i class="fa fa-external-link"></i></a><i class="fa fa-clipboard"></i></br>
-
-          <p>
-            {{comment.text}}
+      <div id="search" ng-init="getComments()">
+        <input id="search_input" ng-model="query">
+        <div id="search_advanced" ng-show="showAdvancedSearch" ng-init="showAdvancedSearch=false">
+          Rating:<rating ng-model="advSearch.rating"></rating><br />
+          Location:<input ng-model="advSearch.location" /><br />
+          Temporal:<br  />
+          Begin:<br />
+          <p class="input-group">
+            <input type="text" ng-model="advSearch.startdate" datepicker-popup="yyyy-MM-dd" is-open="pickerSearchStartOpened"  close-text="Close" />
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="openDatepicker($event, 'searchStartPicker')"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
           </p>
-          {{comment.username}} - {{comment.creationdate|date:medium}} - <rating ng-model=comment.rating readonly=true disabled></rating>
+          End:<br />
+          <p class="input-group">
+            <input type="text" ng-model="advSearch.enddate" datepicker-popup="yyyy-MM-dd" is-open="pickerSearchEndOpened"  close-text="Close" />
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="openDatepicker($event, 'searchEndPicker')"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+          </p>
+
+
+        </div>
+        <a ng-click="showAdvancedSearch= !showAdvancedSearch">Advanced Search</a>
+        <div id="search_result">
+          {{advSearch|json}}<br />
+          <button class="btn btn-default" ng-click="filterComments()">Filter</button>
+          {{filteredComments|json}}<br />
+          Markers:{{markers|json}}
+
+
+
+          <div class="comment" ng-repeat="comment in filteredComments | orderBy:creationdate:reverse">
+            <a ng-href="/comment/{{comment._id}}">{{ comment.url| shortenUrl}}</a><a href={{comment.url}}><i class="fa fa-external-link"></i></a><i class="fa fa-clipboard"></i></br>
+
+            <p>
+              {{comment.text}}
+            </p>
+            {{comment.username}} - {{comment.creationdate|date:medium}} - <rating ng-model=comment.rating readonly=true disabled></rating>
+
+          </div>
 
         </div>
 
       </div>
-
-
       </div>
 
 </section>

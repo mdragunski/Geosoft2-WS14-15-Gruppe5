@@ -180,6 +180,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 						$http.get('/comments').
 						success(function(data, status, headers, config) {
 							$scope.comments = data;
+							$scope.filterComments();
 							$window.alert("success");
 
 
@@ -235,26 +236,18 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 					};
 
 					function createMarkersFromComments(array){
-						$window.alert('createMarkersFromComments'+array.length);
 						var mrkrs = [];
 						for (var i=0; i<array.length; i++){
 							var m ={lat:array[i].georeference.geometry.coordinates[0],
 							lng:array[i].georeference.geometry.coordinates[1],
 							message:array[i].text};
 							mrkrs.push(m);
-							$window.alert('blub');
 						}
 						$scope.markers = mrkrs;
 
 					}
 
 
-
-
-					function validateInput(){
-
-
-					}
 
 
 
