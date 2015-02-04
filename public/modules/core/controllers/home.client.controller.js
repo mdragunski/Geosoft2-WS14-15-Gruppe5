@@ -1,8 +1,8 @@
 'use strict';
 
 
-angular.module('core').controller('HomeController', ['$scope', 'Authentication', '$http', '$window',
-	function($scope, Authentication, $http, $window) {
+angular.module('core').controller('HomeController', ['$scope', 'Authentication', '$http', '$window','$filter', 'advancedSearchFilter',
+	function($scope, Authentication, $http, $window, $filter,advancedSearchFilter) {
 		// This provides Authentication context.
 		$scope.authentication = Authentication;
 
@@ -40,7 +40,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                }
             },
             defaults: {
-                scrollWheelZoom: false,
+                scrollWheelZoom: true,
                 controls: {
                     layers: {
                         visible: true,
@@ -49,22 +49,9 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                     }
                 }
             },
-            /*controls: {
-                    draw: {
-                      draw: {
-                         polyline: false,
-                         polygon: false,
-                         rectangle: false,
-                         circle: false,
-                         marker: true,
-                       },
-                      //edit: false
-                    }
-            }*/
         });
 
 
-        $scope.coordinates = {};
 
         $scope.markers = [];
 
@@ -93,6 +80,10 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 							coordinates: []
 						}
 					}
+				}
+
+				$scope.clearNewCommentForm = function(){
+
 				}
 
 				$scope.parseUrl= function (url){
@@ -150,18 +141,27 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 						$scope.comment.additionalressources.push(ressource);
 						$scope.additionalressource_input=null;
 					}
-
-
+				}
+				$scope.removeAdditionalRessource = function(ressource){
+					for (var i=0; i<$scope.comment.additionalressources.length; i++){
+						if(tag== $scope.comment.additionalressources[i]){
+							$scope.comment.additionalressources.splice(i,1);
+						}
+					}
 				}
 
 				$scope.submitComment = function(){
-					$http.post('/comments',$scope.comment)
-					.success(function(data, status, headers, config) {
-						Console.log('success');
-					})
-					.
-					error(function(data, status, headers, config) {
-						Console.log('error');})
+						$http.post('/comments',$scope.comment)
+						.success(function(data, status, headers, config) {
+							console.log('success');
+						})
+						.
+						error(function(data, status, headers, config) {
+							console.log('error');
+						});
+						$scope.showNewComment=false;
+
+
 					}
 
 					$scope.contains = function(obj, array){
@@ -174,12 +174,14 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 					}
 
 					//search
+					$scope.comments=[];
 
 					$scope.getComments = function(){
 						$http.get('/comments').
 						success(function(data, status, headers, config) {
 							$scope.comments = data;
 							$window.alert("success");
+
 
 						});
 					}
@@ -198,14 +200,62 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 
 					$scope.userTypes=['user','expert','scientist'];
 
+					$scope.filteredComments = [];
 
+					$scope.filterComments = function(){
+						var fComments = $filter('filter')($scope.comments, $scope.query);
+						$scope.filteredComments= advancedSearch(fComments,$scope.advSearch);
+						createMarkersFromComments($scope.filteredComments);
+					}
 
-					$scope.open = function($event) {
-						$event.preventDefault();
-						$event.stopPropagation();
+					function advancedSearch(array, advSearch) {
+						if(!$scope.showAdvancedSearch){
+							return array;
+						}
 
-						$scope.opened = true;
+						var filteredArray=[];
+
+						for (var i=0;i<array.length;i++){
+
+							if(advSearch.rating!= null && array[i].rating < advSearch.rating ){
+								continue;
+							}
+							/*if(advSearch.startDate!= null && advSearch.endDate!=null
+								&& (array[i].timereference.enddate < aSearch.startdate
+									|| array[i].timereference.startdate > aSearch.enddate)){
+										continue;
+									}
+									if(advSearch.location != null && items[i].rating < aSearch.rating ){
+									continue;
+								}*/
+
+								filteredArray.push(array[i]);
+							}
+							return filteredArray;
 					};
+
+					function createMarkersFromComments(array){
+						$window.alert('createMarkersFromComments'+array.length);
+						var mrkrs = [];
+						for (var i=0; i<array.length; i++){
+							var m ={lat:array[i].georeference.geometry.coordinates[0],
+							lng:array[i].georeference.geometry.coordinates[1],
+							message:array[i].text};
+							mrkrs.push(m);
+							$window.alert('blub');
+						}
+						$scope.markers = mrkrs;
+
+					}
+
+
+
+
+					function validateInput(){
+
+
+					}
+
 
 
 
