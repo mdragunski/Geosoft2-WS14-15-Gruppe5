@@ -8,10 +8,11 @@
 //takes wfs json object and returns a bbox as a polygon feature
 function getMetaWMS(json) {
 
-	var minx = (json.WMS_Capabilities.Capability[0].Layer[0].EX_GeographicBoundingBox[0].westBoundLongitude);
-	var maxx = (json.WMS_Capabilities.Capability[0].Layer[0].EX_GeographicBoundingBox[0].eastBoundLongitude);
-	var miny = (json.WMS_Capabilities.Capability[0].Layer[0].EX_GeographicBoundingBox[0].southBoundLatitude);
-	var maxy = (json.WMS_Capabilities.Capability[0].Layer[0].EX_GeographicBoundingBox[0].northBoundLatitude);
+	try{
+	var minx = (json.WMS_Capabilities.Capability[0].Layer[0].EX_GeographicBoundingBox[0].westBoundLongitude[0]);
+	var maxx = (json.WMS_Capabilities.Capability[0].Layer[0].EX_GeographicBoundingBox[0].eastBoundLongitude[0]);
+	var miny = (json.WMS_Capabilities.Capability[0].Layer[0].EX_GeographicBoundingBox[0].southBoundLatitude[0]);
+	var maxy = (json.WMS_Capabilities.Capability[0].Layer[0].EX_GeographicBoundingBox[0].northBoundLatitude[0]);
 
 	var bbox = { "type" : "Feature",
 				 "geometry" : {
@@ -27,15 +28,17 @@ function getMetaWMS(json) {
 					  ]
 				   }
 			   };
-	
-	console.log("bbox created");
-	console.log(minx + " " + maxx + " " + miny + " " + maxy);
-	return bbox;
-}
 
+	return bbox;
+	}
+	catch(err){
+		throw "No supported WMS version or broken url!";
+	}
+}
 //takes wfs json object and returns a bbox as a polygon feature
 function getMetaWCS(json) {
-	
+
+	try{
 	console.log("getMetaWCS started");
 	var minx = (json['wcs:Capabilities']['wcs:Contents'][0]['wcs:CoverageSummary'][0]["ows:WGS84BoundingBox"][0]["ows:LowerCorner"])
 	.toString().split(" ")[0];
@@ -60,16 +63,17 @@ function getMetaWCS(json) {
 					  ]
 				   }
 			   };
-	
-	console.log("bbox created: " + bbox.geometry.type);
-	console.log(minx + " " + maxx + " " + miny + " " + maxy);
-	return bbox;
 
+	return bbox;
+	}
+	catch(err){
+		throw "No supported WCS version or broken url!";
+	}
 }
 
 //takes wfs json object and returns a bbox as a polygon feature
 function getMetaWFS(json) {
-
+	try{
 	console.log("getMetaWFS started");
 	var minx = (json['wfs:WFS_Capabilities'].FeatureTypeList[0].FeatureType[0]["ows:WGS84BoundingBox"][0]["ows:LowerCorner"])
 	.toString().split(" ")[0];
@@ -95,35 +99,23 @@ function getMetaWFS(json) {
 				   }
 			   };
 	
-	console.log("bbox created");
-	console.log(minx + " " + maxx + " " + miny + " " + maxy);			
 	return bbox;
+	}
+	catch(err){
+		throw "No supported WFS version or broken url!";
+	}
 }
 
 //takes csw json object and returns metadata
 function getMetaCSW(json) {
-	var bbox = { "type" : "Feature",
-				 "geometry" : {
-				 	"type" : "Polygon",
-					"coordinates": [
-						  [
-							[0, 0], 
-							[0, 0], 
-							[0, 0], 
-							[0, 0], 
-							[0, 0]
-						  ]
-					  ]
-				   }
-			   };
-	
-
-		return bbox;
+	var bbox = {};
+	return bbox;
 }
 
 //takes sos json object and returns a bbox as a polygon feature
 function getMetaSOS(json) {
 
+	try{
 	console.log("getMetaSOS started");
 	var minx = (json['sos:Capabilities']['sos:Contents'][0]['sos:ObservationOfferingList'][0]
 				["sos:ObservationOffering"][0]["gml:boundedBy"][0]["gml:Envelope"][0]["gml:lowerCorner"])
@@ -152,15 +144,18 @@ function getMetaSOS(json) {
 					  ]
 				   }
 			   };
-	
-	console.log("bbox created");;
-	console.log(minx + " " + maxx + " " + miny + " " + maxy);
+
 	return bbox;
+	}
+	catch(err){
+		throw "No supported SOS version or broken url!";
+	}
 }
 
 //takes gml json object and returns a bbox as a polygon feature
 function getMetaGML(json) {
 
+	try{
 	var minx = (json.Features["gml:boundedBy"][0]["gml:Box"][0]["gml:coord"][0]["gml:X"])
 				.toString();
 	var maxx = (json.Features["gml:boundedBy"][0]["gml:Box"][0]["gml:coord"][1]["gml:X"])
@@ -184,15 +179,18 @@ function getMetaGML(json) {
 					  ]
 				   }
 			   };
-	
-	console.log("bbox created");;
-	console.log(minx + " " + maxx + " " + miny + " " + maxy);
+
 	return bbox;
+	}
+	catch(err){
+		throw "No supported GML version or broken url!";
+	}
 }
 
 //takes kml json object and returns a bbox as a polygon feature
 function getMetaKML(json) {
 
+	try{
 	var minx = (json.value.abstractFeatureGroup.value.abstractFeatureGroup[2].value.abstractFeatureGroup[0].value.latLonBox.west);
 	var maxx = (json.value.abstractFeatureGroup.value.abstractFeatureGroup[2].value.abstractFeatureGroup[0].value.latLonBox.east);
 	var miny = (json.value.abstractFeatureGroup.value.abstractFeatureGroup[2].value.abstractFeatureGroup[0].value.latLonBox.south);
@@ -212,15 +210,18 @@ function getMetaKML(json) {
 					  ]
 				   }
 			   };
-	
-	console.log("bbox created");
-	console.log(minx + " " + maxx + " " + miny + " " + maxy);
+
 	return bbox;
+	}
+	catch(err){
+		throw "No supported KML version or broken url!";
+	}
 }
 
 //takes microformat json object and returns a bbox as a polygon feature
 function getMetaMicro(json) {
 
+	try {
 	var x = (json.items[0].properties.longitude[0]);
 	var y = (json.items[0].properties.latitude[0]);
 	var minx = x - 2;
@@ -242,10 +243,12 @@ function getMetaMicro(json) {
 					  ]
 				   }
 			   };
-	
-	console.log("bbox created");
-	console.log(minx + " " + maxx + " " + miny + " " + maxy);
+
 	return bbox;
+	}
+	catch (err) {
+		throw "No supported data format or broken url!";
+	}
 }
 
 
