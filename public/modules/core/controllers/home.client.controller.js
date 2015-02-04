@@ -96,13 +96,12 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 				}
 
 				$scope.parseUrl= function (url){
-					$http.post('/parser',$scope.comment.url).
+					$http.post('/parser',{url:$scope.comment.url}).
 					success(function(data, status, headers, config) {
 						$scope.parser=data;
 						$window.alert("success");
 
 					});
-
 				}
 
 				$scope.changeCoordinates= function(){
