@@ -180,7 +180,7 @@ function parseMicro(_url, response) {
     var options = {};
     microformats.parseUrl(_url, options, function(err,data){
         if (err){
-            console.log("No valid data format!")
+            console.log("No valid data format!");
             throw err;
         }
         var bbox = getMeta.getMetaMicro(data);

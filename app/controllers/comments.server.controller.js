@@ -11,9 +11,24 @@ var mongoose = require('mongoose'),
  * Create a Comment
  */
 exports.create = function(req, res) {
-	var comment = new Comment(req.body);
-	comment.save();
-	res.jsonp(comment);
+	var commentRequest = req.body;
+	if(commentRequest.url){
+		if(commentRequest.text){
+			var comment = new Comment(req.body);
+			comment.save();
+			res.jsonp(comment);
+		}
+		else {
+			res.status(400).send({
+				message: 'Comment-Text is missing.'
+			});
+		}
+	}
+	else {
+		res.status(400).send({
+			message: 'Comment-URL is missing.'
+		});
+	}
 };
 
 /**
