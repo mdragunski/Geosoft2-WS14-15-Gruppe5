@@ -178,15 +178,19 @@ function parseGML(getCbs, response) {
 function parseMicro(_url, response) {
     console.log("parseMicro is starting...");
     var options = {};
+    try{
     microformats.parseUrl(_url, options, function(err,data){
         if (err){
-            console.log("No valid data format!");
-
-            response.jsonp(options);
+            console.log("Parsing didn't work!");
         }
         var bbox = getMeta.getMetaMicro(data, response);
         response.jsonp(bbox);
-    })
+        }
+    )}
+    catch(err){
+        response.jsonp({});
+    }
+
 };
 
 
