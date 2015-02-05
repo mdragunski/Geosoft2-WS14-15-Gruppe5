@@ -64,11 +64,6 @@ input {
 	box-shadow: rgba(0,0,0,0.1) -2px 0px 0px;
 }
 
-.comment{
-	border-style:solid;
-	border-width:1px;
-	margin:4px;
-}
 .newComment{
 	font-weight:500;
 	text-align:left;
@@ -126,7 +121,41 @@ input {
 
 }
 
+.icon{
+	margin-left:4px;
+}
+
 .alert {
 	margin-bottom: 8px;
 	padding: 8px
+}
+.comment{
+	border-style:solid;
+	border-width:1px;
+	margin:4px;
+
+}
+
+.commentType{
+	display:table-cell;
+	width:10px;
+	height:100%;
+	background-color:red;
+}
+.commentContent{
+	display:table-cell;
+	margin-left:8px;
+	text-align:center;
+}
+.user{
+	background-color:salmon;
+}
+.expert{
+	background-color:yellow;
+}
+.scientist{
+	background-color:green;
+}
+.anonymous{
+	background-color:lightgrey;
 }

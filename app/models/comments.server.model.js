@@ -26,7 +26,8 @@ var CommentsSchema = new Schema({
 	georeference: GeoJSON.Feature,
 	tags: [String],
 	additionalressources: [String],
-	username: { type: String, default: 'anonymous' }
+	username: { type: String, default: 'anonymous' },
+	usertype: {type: String, default: 'anonymous'}
 });
 
 

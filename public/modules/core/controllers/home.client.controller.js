@@ -71,8 +71,9 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 				//new Comment
 				$scope.showNewCommentForm= function(){
 					$scope.showNewComment = true;
-					if(authentication.user!==""){
-						$scope.comment.username = authentication.user.username;
+					if($scope.authentication.user!=''){
+						$scope.comment.username = $scope.authentication.user.username;
+						$scope.comment.usertype = $scope.authentication.user.roles[0];
 					}
 
 				}
@@ -92,7 +93,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 
 				$scope.comment = emptyComment;
 
-				$scope.cancelNewComment = function(){
+				$scope.closeNewComment = function(){
 					clearNewCommentForm();
 					$scope.showNewComment =false;
 
@@ -115,9 +116,6 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 					});
 				}
 
-				$scope.changeCoordinates= function(){
-					$scope.comment.georeference.geometry.coordinates =[$scope.lat, $scope.lng];
-				}
 
 				$scope.openDatepicker = function($event, picker) {
 					$event.preventDefault();
@@ -137,6 +135,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 					}
 
 				};
+
 
 
 
@@ -179,12 +178,14 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 						$http.post('/comments',$scope.comment)
 						.success(function(data, status, headers, config) {
 							console.log('success');
+							closeNewComment();
 						})
 						.
 						error(function(data, status, headers, config) {
 							console.log('error');
+							$scope.alerts.push({ type: 'danger', msg: 'The comment could not be submitted to the server. There might be a problem with the server.'});
 						});
-						$scope.showNewComment=false;
+					}
 
 
 					}
@@ -205,10 +206,21 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 						$http.get('/comments').
 						success(function(data, status, headers, config) {
 							$scope.comments = data;
-							$window.alert("success");
-
-
+							$scope.filterComments();
 						});
+					}
+					function getExternalComments(){
+						$http.get('http://giv-geosoft2a.uni-muenster.de/api/v1/searchapi?q=e')
+						.success(function(data, status, headers, config) {
+							var externalComments=data;
+
+						}
+						);
+					}
+
+					function modifyExternalComments(comments){
+						var mExComments="blub"
+
 					}
 
 					$scope.getBoundingBox = function (){
