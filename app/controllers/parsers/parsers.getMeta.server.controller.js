@@ -33,6 +33,7 @@ function getMetaWMS(json) {
 	}
 	catch(err){
 		throw "No supported WMS version or broken url!";
+		response.jsonp({});
 	}
 }
 //takes wfs json object and returns a bbox as a polygon feature
@@ -68,6 +69,7 @@ function getMetaWCS(json) {
 	}
 	catch(err){
 		throw "No supported WCS version or broken url!";
+		response.jsonp({});
 	}
 }
 
@@ -103,6 +105,7 @@ function getMetaWFS(json) {
 	}
 	catch(err){
 		throw "No supported WFS version or broken url!";
+		response.jsonp({});
 	}
 }
 
@@ -149,6 +152,7 @@ function getMetaSOS(json) {
 	}
 	catch(err){
 		throw "No supported SOS version or broken url!";
+		response.jsonp({});
 	}
 }
 
@@ -184,6 +188,7 @@ function getMetaGML(json) {
 	}
 	catch(err){
 		throw "No supported GML version or broken url!";
+		response.jsonp({});
 	}
 }
 
@@ -215,6 +220,7 @@ function getMetaKML(json) {
 	}
 	catch(err){
 		throw "No supported KML version or broken url!";
+		response.jsonp({});
 	}
 }
 
