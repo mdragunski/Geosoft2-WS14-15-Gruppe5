@@ -35,7 +35,7 @@ module.exports = {
 				'public/lib/leaflet/dist/leaflet.js',
 				'public/lib/angular-leaflet/dist/angular-leaflet-directive.min.js',
 				'public/lib/ngDialog/js/ngDialog.js',
-				'public/lib/leaflet.markercluster/dist/leaflet.markercluster.js
+				'public/lib/leaflet.markercluster/dist/leaflet.markercluster.js'
 			]
 		},
 		css: [
