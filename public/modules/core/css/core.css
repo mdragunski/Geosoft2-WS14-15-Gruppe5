@@ -135,6 +135,9 @@ input {
 	margin:4px;
 
 }
+.comment_input{
+	height:60px;
+}
 
 .commentType{
 	display:table-cell;

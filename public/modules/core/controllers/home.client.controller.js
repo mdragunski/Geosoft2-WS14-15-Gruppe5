@@ -281,7 +281,8 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 						for (var i=0; i<array.length; i++){
 							var m ={lat:array[i].georeference.geometry.coordinates[0],
 							lng:array[i].georeference.geometry.coordinates[1],
-							message: '<p>'+"Comment: "+'<br/>'+array[i].text+'<br/></p><p>'+"Author: "+'<br/>'+array[i].username+'</p><a href="'+array[i].url+'">'+array[i].url+'</a>'};
+							message: '<a href="/comment/'+array[i]._id+'">'+array[i].url+'</a><a href="'+array[i].url+'""><i class="icon fa fa-external-link"></i></a><br />'+array[i].text+'<br /><br />Created by : '+array[i].username
+							};
 							mrkrs.push(m);
 							$window.alert('blub');
 						}
