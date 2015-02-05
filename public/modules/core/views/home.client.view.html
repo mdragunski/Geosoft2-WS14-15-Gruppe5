@@ -52,8 +52,6 @@
           <input type="url" ng-model="additionalressource_input" /><button class="btn btn-default" ng-click="addAdditionalRessource(additionalressource_input)">Add Additional Ressource</button><br />
 
           Comment: {{comment|json}}<br />
-          {{parser|json}}
-          {{authentication|json}}
           <br />
           <alert ng-repeat="alert in alerts" type="{{alert.type}}" >{{alert.msg}}</alert>
 
@@ -90,9 +88,6 @@
         <a ng-click="showAdvancedSearch= !showAdvancedSearch">Advanced Search</a>
         <div id="search_result">
           {{advSearch|json}}<br />
-          <button class="btn btn-default" ng-click="filterComments()">Filter</button>
-          {{filteredComments|json}}<br />
-          Markers:{{markers|json}}
 
 
 
@@ -106,12 +101,8 @@
             <p>
               {{comment.text}}
             </p>
-            Timereference:<br />
-            {{comment.startdate}} - {{comment.enddate}}<br />
 
-            <rating ng-model=comment.rating readonly=true disabled></rating><br />
-
-            {{comment.username}} [{{comment.usertype}}] - {{comment.creationdate|date:'dd.MM.yyyy HH:mm:ss'}}
+            {{comment.username}} - {{comment.creationdate|date:'dd.MM.yyyy HH:mm:ss'}} -<rating ng-model=comment.rating readonly=true disabled></rating>
 
           </div>
 
