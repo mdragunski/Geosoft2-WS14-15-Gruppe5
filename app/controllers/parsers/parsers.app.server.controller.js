@@ -1,5 +1,5 @@
 /*
-	Contains functionality to route an incoming url 
+	Contains functionality to route an incoming url
 	to the right parser.
 	@author Boris Stöcker
 */
@@ -10,8 +10,6 @@ var fs = require('fs');
 var builder = require("./parsers.builder.server.controller");
 var parser = require("./parsers.parser.server.controller");
 var _ = require('lodash');
-var mongoose = require('mongoose');
-var Parser = mongoose.model("Parser");
 var validate = require('validator');
 //example initializations
 
@@ -87,7 +85,7 @@ exports.parseRouter = function (_url, res, next) {
 
 //takes an url and returns the string of the service to parse
 function detect(uri) {
-	
+
 	var wms = "SERVICE=WMS",
 		wcs = "SERVICE=WCS",
 		wfs = "SERVICE=WFS",

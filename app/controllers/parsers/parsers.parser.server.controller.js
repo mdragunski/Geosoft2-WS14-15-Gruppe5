@@ -35,7 +35,7 @@ function parseWMS(getCbs, response) {
                 var bbox = getMeta.getMetaWMS(result);
                 console.log("parseWMS finished.");
                 response.jsonp(bbox);
-                
+
             })
         });
     });
@@ -181,10 +181,18 @@ function parseMicro(_url, response) {
     microformats.parseUrl(_url, options, function(err,data){
         if (err){
             console.log("No valid data format!");
-            throw err;
+            response.jsonp({});
         }
-        var bbox = getMeta.getMetaMicro(data);
-        response.jsonp(bbox);
+        try{
+          var bbox = getMeta.getMetaMicro(data);
+          response.jsonp(bbox);
+        }
+        catch(err){
+          console.log("catch error MicroFormats")
+          response.jsonp({});
+        }
+
+
     })
 };
 

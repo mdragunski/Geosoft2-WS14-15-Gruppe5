@@ -69,8 +69,15 @@ $scope.activateEvents = function () {
 }
 
 				//new Comment
+				$scope.showNewCommentForm= function(){
+					$scope.showNewComment = true;
+					if(authentication.user!==""){
+						$scope.comment.username = authentication.user.username;
+					}
 
-				$scope.comment ={
+				}
+
+				var emptyComment ={
 					tags:[],
 					additionalressources:[],
 					georeference:{
@@ -80,9 +87,19 @@ $scope.activateEvents = function () {
 							coordinates: []
 						}
 					}
+				};
+
+
+				$scope.comment = emptyComment;
+
+				$scope.cancelNewComment = function(){
+					clearNewCommentForm();
+					$scope.showNewComment =false;
+
 				}
 
-				$scope.clearNewCommentForm = function(){
+				function clearNewCommentForm(){
+					$scope.comment=emptyComment;
 
 				}
 
@@ -90,7 +107,10 @@ $scope.activateEvents = function () {
 					$http.post('/parser',{url:$scope.comment.url}).
 					success(function(data, status, headers, config) {
 						$scope.parser=data;
-						$window.alert("success");
+						console.log("parse success");
+
+					}).error(function(data, status, headers, config) {
+						console.log("parse error");
 
 					});
 				}
@@ -121,7 +141,7 @@ $scope.activateEvents = function () {
 
 
 				$scope.addTag = function(tag){
-					if(!$scope.contains(tag, $scope.comment.tags)&& tag!=''){
+					if(!$scope.contains(tag, $scope.comment.tags)&& tag!==''&& tag!== null && typeof tag !== 'undefined'){
 						$scope.comment.tags.push(tag);
 					}
 
@@ -153,7 +173,7 @@ $scope.activateEvents = function () {
 				$scope.submitComment = function(){
 					$scope.alerts = [];
 					if($scope.validate()){
-
+						console.log("comment submitted");
 						$http.post('/comments',$scope.comment)
 						.success(function(data, status, headers, config) {
 							console.log('success');
@@ -205,6 +225,9 @@ $scope.activateEvents = function () {
 
 					$scope.userTypes=['user','expert','scientist'];
 
+					$scope.dateformat ='dd.MM.yyyy';
+
+
 					$scope.filteredComments = [];
 
 					$scope.filterComments = function(){
@@ -238,6 +261,7 @@ $scope.activateEvents = function () {
 							}
 							return filteredArray;
 					};
+
 
 
 					function createMarkersFromComments(array){
@@ -277,15 +301,11 @@ $scope.activateEvents = function () {
 							valid = false;
 							$scope.alerts.push({ type: 'danger', msg: 'Startdate needs to be settled before enddate!'})
 						}
-						if (!$scope.validateUrl($scope.additionalressource_input)){
-							valid = false;
-							$scope.alerts.push({ type: 'danger', msg: 'No valid URL for additional ressources!'})
-						}
 						return valid;
 					}
 
 					$scope.validateUrl = function(url) {
-						regExp = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
+						var regExp = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
 						if (regExp.test(url)){
 							return true;
 						}
