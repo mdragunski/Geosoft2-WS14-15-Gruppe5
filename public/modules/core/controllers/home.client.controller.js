@@ -171,12 +171,11 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 				}
 
 				$scope.submitComment = function(){
-<<<<<<< HEAD
+
 					$scope.alerts = [];
 					if($scope.validate()){
 						console.log("comment submitted");
-=======
->>>>>>> 8d127ebae1fd30c05f0063a2308a0e1937aff6b5
+
 						$http.post('/comments',$scope.comment)
 						.success(function(data, status, headers, config) {
 							console.log('success');
@@ -263,11 +262,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 							return filteredArray;
 					};
 
-<<<<<<< HEAD
 
-
-=======
->>>>>>> 8d127ebae1fd30c05f0063a2308a0e1937aff6b5
 					function createMarkersFromComments(array){
 						$window.alert('createMarkersFromComments'+array.length);
 						var mrkrs = [];
@@ -284,7 +279,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 
 
 
-<<<<<<< HEAD
+
 					$scope.validate = function() {
 						var valid = true;
 						if (typeof $scope.comment.url === 'undefined' || $scope.comment.url === '' || !$scope.validateUrl($scope.comment.url)){
@@ -316,12 +311,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 							return true;
 						}
 						return false;
-=======
 
-					function validateInput(){
-
-
->>>>>>> 8d127ebae1fd30c05f0063a2308a0e1937aff6b5
 					}
 
 

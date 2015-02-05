@@ -33,11 +33,12 @@ var validate = require('validator');
 //parseRouter("http://microformatshiv.com/h-geo.html");
 
 //takes a service string and routes it to the right parser
-exports.parseRouter = function (_url, res, next) {
+exports.parseRouter = function (_url, res) {
 	//get the detected service and route the url to the right parser
 	var uri = _url.body.url;
 	if (!validate.isURL(uri,['http', 'https'])){
-			next(new Error("No valid URL given!"));
+			console.log("No valid URL given!");
+			res.jsonp({});
 		}
 	else {
 	switch (detect(uri)) {
