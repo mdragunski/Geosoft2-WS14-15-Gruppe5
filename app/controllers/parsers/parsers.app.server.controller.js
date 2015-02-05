@@ -1,5 +1,5 @@
 /*
-	Contains functionality to route an incoming url 
+	Contains functionality to route an incoming url
 	to the right parser.
 	@author Boris Stöcker
 */
@@ -86,7 +86,7 @@ exports.parseRouter = function (_url, res) {
 
 //takes an url and returns the string of the service to parse
 function detect(uri) {
-	
+
 	var wms = "SERVICE=WMS",
 		wcs = "SERVICE=WCS",
 		wfs = "SERVICE=WFS",

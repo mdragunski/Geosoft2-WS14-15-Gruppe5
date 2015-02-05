@@ -16,6 +16,7 @@
     "angular-ui-router": "~0.2.11",
     "angular-leaflet": "~0.7.9",
     "ngDialog": "~0.3.9",
-    "fontawesome": "~4.2.0"
+    "fontawesome": "~4.2.0",
+    "leaflet.markercluster": "~0.4.0"
   }
 }

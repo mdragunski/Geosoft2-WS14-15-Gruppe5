@@ -19,7 +19,8 @@ module.exports = {
 				'public/lib/leaflet.draw/dist/leaflet.draw.css',
 				'public/lib/ngDialog/css/ngDialog.css',
 				'public/lib/ngDialog/css/ngDialog-theme-default.css',
-				'public/lib/fontawesome/css/font-awesome.css'
+				'public/lib/fontawesome/css/font-awesome.css',
+				'public/lib/leaflet.markercluster/dist/MarkerCluster.Default.css'
 			],
 			js: [
 				'public/lib/angular/angular.js',
@@ -33,7 +34,8 @@ module.exports = {
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
 				'public/lib/leaflet/dist/leaflet.js',
 				'public/lib/angular-leaflet/dist/angular-leaflet-directive.min.js',
-				'public/lib/ngDialog/js/ngDialog.js'
+				'public/lib/ngDialog/js/ngDialog.js',
+				'public/lib/leaflet.markercluster/dist/leaflet.markercluster.js
 			]
 		},
 		css: [

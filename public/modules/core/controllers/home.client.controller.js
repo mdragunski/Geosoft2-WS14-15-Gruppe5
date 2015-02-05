@@ -69,8 +69,16 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
         }
 
 				//new Comment
+				$scope.showNewCommentForm= function(){
+					$scope.showNewComment = true;
+					if($scope.authentication.user!=''){
+						$scope.comment.username = $scope.authentication.user.username;
+						$scope.comment.usertype = $scope.authentication.user.roles[0];
+					}
 
-				$scope.comment ={
+				}
+
+				var emptyComment ={
 					tags:[],
 					additionalressources:[],
 					georeference:{
@@ -80,9 +88,19 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 							coordinates: []
 						}
 					}
+				};
+
+
+				$scope.comment = emptyComment;
+
+				$scope.closeNewComment = function(){
+					clearNewCommentForm();
+					$scope.showNewComment =false;
+
 				}
 
-				$scope.clearNewCommentForm = function(){
+				function clearNewCommentForm(){
+					$scope.comment=emptyComment;
 
 				}
 
@@ -90,14 +108,14 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 					$http.post('/parser',{url:$scope.comment.url}).
 					success(function(data, status, headers, config) {
 						$scope.parser=data;
-						$window.alert("success");
+						console.log("parse success");
+
+					}).error(function(data, status, headers, config) {
+						console.log("parse error");
 
 					});
 				}
 
-				$scope.changeCoordinates= function(){
-					$scope.comment.georeference.geometry.coordinates =[$scope.lat, $scope.lng];
-				}
 
 				$scope.openDatepicker = function($event, picker) {
 					$event.preventDefault();
@@ -120,8 +138,9 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 
 
 
+
 				$scope.addTag = function(tag){
-					if(!$scope.contains(tag, $scope.comment.tags)&& tag!=''){
+					if(!$scope.contains(tag, $scope.comment.tags)&& tag!==''&& tag!== null && typeof tag !== 'undefined'){
 						$scope.comment.tags.push(tag);
 					}
 
@@ -151,15 +170,22 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 				}
 
 				$scope.submitComment = function(){
+
+					$scope.alerts = [];
+					if($scope.validate()){
+						console.log("comment submitted");
+
 						$http.post('/comments',$scope.comment)
 						.success(function(data, status, headers, config) {
 							console.log('success');
+							closeNewComment();
 						})
 						.
 						error(function(data, status, headers, config) {
 							console.log('error');
+							$scope.alerts.push({ type: 'danger', msg: 'The comment could not be submitted to the server. There might be a problem with the server.'});
 						});
-						$scope.showNewComment=false;
+					}
 
 
 					}
@@ -180,10 +206,21 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 						$http.get('/comments').
 						success(function(data, status, headers, config) {
 							$scope.comments = data;
-							$window.alert("success");
-
-
+							$scope.filterComments();
 						});
+					}
+					function getExternalComments(){
+						$http.get('http://giv-geosoft2a.uni-muenster.de/api/v1/searchapi?q=e')
+						.success(function(data, status, headers, config) {
+							var externalComments=data;
+
+						}
+						);
+					}
+
+					function modifyExternalComments(comments){
+						var mExComments="blub"
+
 					}
 
 					$scope.getBoundingBox = function (){
@@ -199,6 +236,9 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 					};
 
 					$scope.userTypes=['user','expert','scientist'];
+
+					$scope.dateformat ='dd.MM.yyyy';
+
 
 					$scope.filteredComments = [];
 
@@ -234,13 +274,15 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 							return filteredArray;
 					};
 
+
 					function createMarkersFromComments(array){
 						$window.alert('createMarkersFromComments'+array.length);
 						var mrkrs = [];
 						for (var i=0; i<array.length; i++){
 							var m ={lat:array[i].georeference.geometry.coordinates[0],
 							lng:array[i].georeference.geometry.coordinates[1],
-							message: '<p>'+"Comment: "+'<br/>'+array[i].text+'<br/></p><p>'+"Author: "+'<br/>'+array[i].username+'</p><a href="'+array[i].url+'">'+array[i].url+'</a>'};
+							message: '<a href="/comment/'+array[i]._id+'">'+array[i].url+'</a><a href="'+array[i].url+'""><i class="icon fa fa-external-link"></i></a><br />'+array[i].text+'<br /><br />Created by : '+array[i].username
+							};
 							mrkrs.push(m);
 							$window.alert('blub');
 						}
@@ -251,8 +293,37 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 
 
 
-					function validateInput(){
+					$scope.validate = function() {
+						var valid = true;
+						if (typeof $scope.comment.url === 'undefined' || $scope.comment.url === '' || !$scope.validateUrl($scope.comment.url)){
+							valid = false;
+							$scope.alerts.push({ type: 'danger', msg: 'No valid URL!'});
+						}
+						if ($scope.comment.text === '' || typeof $scope.comment.text === 'undefined'){
+							valid = false;
+							$scope.alerts.push({ type: 'danger', msg: 'Comment needed!'});
+						}
+						if (typeof $scope.comment.georeference.geometry.coordinates[0] === 'undefined') {
+							valid = false;
+							$scope.alerts.push({ type: 'danger', msg: 'A valid value has to be set for latitude!'})
+						}
+						if (typeof $scope.comment.georeference.geometry.coordinates[0] === 'undefined'){
+							valid = false;
+							$scope.alerts.push({ type: 'danger', msg: 'A valid value has to be set for longitude!'})
+						}
+						if ($scope.comment.timereference.startdate > $scope.comment.timereference.enddate){
+							valid = false;
+							$scope.alerts.push({ type: 'danger', msg: 'Startdate needs to be settled before enddate!'})
+						}
+						return valid;
+					}
 
+					$scope.validateUrl = function(url) {
+						var regExp = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
+						if (regExp.test(url)){
+							return true;
+						}
+						return false;
 
 					}
 

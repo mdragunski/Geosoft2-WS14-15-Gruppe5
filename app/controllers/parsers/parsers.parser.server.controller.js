@@ -35,7 +35,7 @@ function parseWMS(getCbs, response) {
                 var bbox = getMeta.getMetaWMS(result);
                 console.log("parseWMS finished.");
                 response.jsonp(bbox);
-                
+
             })
         });
     });

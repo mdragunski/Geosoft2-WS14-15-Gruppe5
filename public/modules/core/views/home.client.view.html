@@ -8,27 +8,39 @@
     </div>
 
     <div class="comments" >
-      <button class="btn btn-success" ng-show="!showNewComment" ng-click="showNewComment= !showNewComment">Add new Comment</button>
+      <button class="btn btn-success" ng-show="!showNewComment" ng-click="showNewCommentForm()">Add new Comment</button>
       <div class = "newComment" ng-show="showNewComment" ng-init="showNewComment=false">
         <h3>Create a new Comment</h3>
+
+
+
+
+
           URL: <input type="url" ng-model="comment.url" ng-blur="parseUrl()"/><br />
-          Comment: <input type="text" ng-model="comment.text" /><br />
+          Comment: <input class="comment_input" type="text" ng-model="comment.text" /><br />
           Rating:<br /> <rating ng-model="comment.rating"></rating><br />
           Coordinates:<br />
-          Lattitude: <input type="number" ng-model="comment.georeference.geometry.coordinates[0]" /><br />
-          Longitude: <input type="number" ng-model="comment.georeference.geometry.coordinates[1]" /><br />
-          <button class="btn btn-default" ng-click="activateEvents()">Get Coordinates from Map</button><br />
+          <tabset>
+            <tab heading ="Point">
+              Lattitude: <input type="number" ng-model="comment.georeference.geometry.coordinates[0]" /><br />
+              Longitude: <input type="number" ng-model="comment.georeference.geometry.coordinates[1]" /><br />
+              <button class="btn btn-default" ng-click="activateEvents()">Get Coordinates from Map</button><br />
+            </tab>
+            <tab heading="Bounding Box">
+
+            </tab>
+          </tabset>
           Timeframe:<br />
           Begin:<br />
           <p class="input-group">
-            <input type="text" ng-model="comment.timereference.startdate" datepicker-popup="yyyy-MM-dd" is-open="pickerStartOpened"  close-text="Close" />
+            <input type="text" ng-model="comment.timereference.startdate" datepicker-popup={{dateformat}} is-open="pickerStartOpened"  close-text="Close" />
             <span class="input-group-btn">
               <button type="button" class="btn btn-default" ng-click="openDatepicker($event, 'startPicker')"><i class="glyphicon glyphicon-calendar"></i></button>
             </span>
           </p>
           End:<br />
           <p class="input-group">
-            <input type="text" ng-model="comment.timereference.enddate" datepicker-popup="yyyy-MM-dd" is-open="pickerEndOpened"  close-text="Close" />
+            <input type="text" ng-model="comment.timereference.enddate" datepicker-popup={{dateformat}} min-date="comment.timereference.startdate" is-open="pickerEndOpened"  close-text="Close" />
             <span class="input-group-btn">
               <button type="button" class="btn btn-default" ng-click="openDatepicker($event, 'endPicker')"><i class="glyphicon glyphicon-calendar"></i></button>
             </span>
@@ -40,13 +52,14 @@
           <input type="url" ng-model="additionalressource_input" /><button class="btn btn-default" ng-click="addAdditionalRessource(additionalressource_input)">Add Additional Ressource</button><br />
 
           Comment: {{comment|json}}<br />
-          {{authentication}}{{parser|json}}
           <br />
           <alert ng-repeat="alert in alerts" type="{{alert.type}}" >{{alert.msg}}</alert>
 
 
           <button class="btn btn-success" ng-click="submitComment()">Submit Comment</button>
-          <button class="btn btn-default">Cancel</button><br />
+          <button class="btn btn-default" ng-click="closeNewComment()">Cancel</button><br />
+
+
 
       </div>
       <div id="search" ng-init="getComments()">
@@ -57,14 +70,14 @@
           Temporal:<br  />
           Begin:<br />
           <p class="input-group">
-            <input type="text" ng-model="advSearch.startdate" datepicker-popup="yyyy-MM-dd" is-open="pickerSearchStartOpened"  close-text="Close" />
+            <input type="text" ng-model="advSearch.startdate" datepicker-popup={{dateformat}} is-open="pickerSearchStartOpened"  close-text="Close" />
             <span class="input-group-btn">
               <button type="button" class="btn btn-default" ng-click="openDatepicker($event, 'searchStartPicker')"><i class="glyphicon glyphicon-calendar"></i></button>
             </span>
           </p>
           End:<br />
           <p class="input-group">
-            <input type="text" ng-model="advSearch.enddate" datepicker-popup="yyyy-MM-dd" is-open="pickerSearchEndOpened"  close-text="Close" />
+            <input type="text" ng-model="advSearch.enddate" datepicker-popup={{dateformat}} min-date="advSearch.startdate" is-open="pickerSearchEndOpened"  close-text="Close" />
             <span class="input-group-btn">
               <button type="button" class="btn btn-default" ng-click="openDatepicker($event, 'searchEndPicker')"><i class="glyphicon glyphicon-calendar"></i></button>
             </span>
@@ -75,20 +88,21 @@
         <a ng-click="showAdvancedSearch= !showAdvancedSearch">Advanced Search</a>
         <div id="search_result">
           {{advSearch|json}}<br />
-          <button class="btn btn-default" ng-click="filterComments()">Filter</button>
-          {{filteredComments|json}}<br />
-          Markers:{{markers|json}}
 
 
 
           <div class="comment" ng-repeat="comment in filteredComments | orderBy:creationdate:reverse">
-            <a ng-href="/comment/{{comment._id}}">{{ comment.url| shortenUrl}}</a><a href={{comment.url}}><i class="fa fa-external-link"></i></a><i class="fa fa-clipboard"></i></br>
+            <div class="commentType {{comment.usertype}}">
+
+            </div>
+            <div class="commentContent"
+            <a ng-href="/comment/{{comment._id}}">{{ comment.url| shortenUrl}}</a><a href={{comment.url}}><i class="icon fa fa-external-link"></i></a><i class="icon fa fa-clipboard"></i></br>
 
             <p>
               {{comment.text}}
             </p>
-            Timereference:
-            {{comment.username}} - {{comment.creationdate|date:medium}} - <rating ng-model=comment.rating readonly=true disabled></rating>
+
+            {{comment.username}} - {{comment.creationdate|date:'dd.MM.yyyy HH:mm:ss'}} -<rating ng-model=comment.rating readonly=true disabled></rating>
 
           </div>
 

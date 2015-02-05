@@ -22,11 +22,12 @@ var CommentsSchema = new Schema({
 	creationdate: { type: Date, default: Date.now },
 	text: { type: String, required: true },
 	rating: {type: Number, min: 0, max: 5, default: 0},
-	timereference: [TimeReferenceSchema],
+	timereference:[TimeReferenceSchema],
 	georeference: GeoJSON.Feature,
 	tags: [String],
 	additionalressources: [String],
-	username: { type: String, default: 'anonymous' }
+	username: { type: String, default: 'anonymous' },
+	usertype: {type: String, default: 'anonymous'}
 });
 
 
