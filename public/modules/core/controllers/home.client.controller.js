@@ -178,7 +178,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 						$http.post('/comments',$scope.comment)
 						.success(function(data, status, headers, config) {
 							console.log('success');
-							closeNewComment();
+							$scope.closeNewComment();
 						})
 						.
 						error(function(data, status, headers, config) {
@@ -201,6 +201,23 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 
 					//search
 					$scope.comments=[];
+					$scope.internalComments=[];
+					$scope.externalComments=[];
+
+					$scope.loadComments = function(){
+						$window.alert('blub');
+						$scope.comments=[];
+						$scope.getComments();
+						//$scope.getExternalComments();
+						for( var i = 0; i<$scope.internalComments; i++){
+							$scope.comments.push($scope.internalComments[i]);
+						}
+						for( var i = 0; i<$scope.externalComments; i++){
+							$scope.comments.push($scope.externalComments[i]);
+						}
+						$scope.filterComments();
+
+					}
 
 					$scope.getComments = function(){
 						$http.get('/comments').
@@ -209,17 +226,30 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 							$scope.filterComments();
 						});
 					}
-					function getExternalComments(){
+					$scope.getExternalComments= function(){
 						$http.get('http://giv-geosoft2a.uni-muenster.de/api/v1/searchapi?q=e')
 						.success(function(data, status, headers, config) {
-							var externalComments=data;
+							$scope.externalComments=modifyExternalComments(data.comments);
 
 						}
 						);
 					}
 
 					function modifyExternalComments(comments){
-						var mExComments="blub"
+						var mExComments=[];
+						for (var i = 0 ; i < comments.length; i++ ){
+							var tempComment={
+								url:comments[i].id,
+								reviewItem:comments[i].itemUnderReview,
+								username:'external',
+								usertype:'external',
+								external:true,
+								rating:comments[i].rating,
+								text:comments[i].text
+							}
+							mExComments.push(tempComment);
+						}
+						return mExComments;
 
 					}
 
@@ -256,10 +286,13 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 						var filteredArray=[];
 
 						for (var i=0;i<array.length;i++){
-
+							if(array[i].external == true){
+								continue;
+							}
 							if(advSearch.rating!= null && array[i].rating < advSearch.rating ){
 								continue;
 							}
+
 							/*if(advSearch.startDate!= null && advSearch.endDate!=null
 								&& (array[i].timereference.enddate < aSearch.startdate
 									|| array[i].timereference.startdate > aSearch.enddate)){

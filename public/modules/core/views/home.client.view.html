@@ -13,11 +13,8 @@
         <h3>Create a new Comment</h3>
 
 
-
-
-
-          URL: <input type="url" ng-model="comment.url" ng-blur="parseUrl()"/><br />
-          Comment: <input class="comment_input" type="text" ng-model="comment.text" /><br />
+          URL: <input type="url" ng-model="comment.url" /><br /><!--ng-blur="parseUrl()"-->
+          Comment: <textarea rows="5"  class="form-control comment_input" type="text" ng-model="comment.text" ></textarea><br />
           Rating:<br /> <rating ng-model="comment.rating"></rating><br />
           Coordinates:<br />
           <tabset>
@@ -51,7 +48,6 @@
           <span  ng-repeat="ressource in comment.additionalressources">{{ressource|shortenUrl}}<i class="fa fa-times" ng-click="removeAdditionalRessource(ressource)"></i><br /></span>
           <input type="url" ng-model="additionalressource_input" /><button class="btn btn-default" ng-click="addAdditionalRessource(additionalressource_input)">Add Additional Ressource</button><br />
 
-          Comment: {{comment|json}}<br />
           <br />
           <alert ng-repeat="alert in alerts" type="{{alert.type}}" >{{alert.msg}}</alert>
 
@@ -87,7 +83,7 @@
         </div>
         <a ng-click="showAdvancedSearch= !showAdvancedSearch">Advanced Search</a>
         <div id="search_result">
-          {{advSearch|json}}<br />
+
 
 
 
