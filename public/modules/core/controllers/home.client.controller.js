@@ -179,6 +179,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 						.success(function(data, status, headers, config) {
 							console.log('success');
 							$scope.closeNewComment();
+							$scope.getComments();
 						})
 						.
 						error(function(data, status, headers, config) {
@@ -205,7 +206,6 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 					$scope.externalComments=[];
 
 					$scope.loadComments = function(){
-						$window.alert('blub');
 						$scope.comments=[];
 						$scope.getComments();
 						//$scope.getExternalComments();
@@ -309,7 +309,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 
 
 					function createMarkersFromComments(array){
-						$window.alert('createMarkersFromComments'+array.length);
+
 						var mrkrs = [];
 						for (var i=0; i<array.length; i++){
 							var m ={lat:array[i].georeference.geometry.coordinates[0],
@@ -317,7 +317,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 							message: '<a href="/comment/'+array[i]._id+'">'+array[i].url+'</a><a href="'+array[i].url+'""><i class="icon fa fa-external-link"></i></a><br />'+array[i].text+'<br /><br />Created by : '+array[i].username
 							};
 							mrkrs.push(m);
-							$window.alert('blub');
+
 						}
 						$scope.markers = mrkrs;
 
